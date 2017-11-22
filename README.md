@@ -4,7 +4,13 @@ A command line and library for manipulating comic archives (.cbz, .cbr, etc). Wr
 
 ## Limitations
 
-Does nothing right now, as the project is just getting started.
+### Command Line App
+
+Doesn't do anything useful yet.
+
+### Comic Archive Library
+
+The library currently only supports a basic conversion of an archive to a zip archive.
 
 ## Usage
 
