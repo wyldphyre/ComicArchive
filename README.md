@@ -18,4 +18,6 @@ TODO:
 
 ## To Do
 
+- Implement handling of arguments for handing the `convert` command, and passing files and folders to be converted.
 - Implement conversion of files from .cbr to .cbz
+- Implement reading of metadata from archives, displaying it to standard out
