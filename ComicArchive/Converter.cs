@@ -25,11 +25,15 @@ namespace ComicArchive
       var sourceFilename = Path.GetFileNameWithoutExtension(sourcePath);
       convertedPath = Path.Combine(sourceDirectory, sourceFilename + ".cbz");
 
-      //TODO: raise an error if the converted path already exists.
+      if (File.Exists(convertedPath))
+        throw new Exception($"Cannot convert path '{sourcePath} to Zip. Target path '{convertedPath}' already exists");
+
       //TODO: check if file is already a zip archive and has the proper extension do nothing
 
-
       var workingPath = Path.Combine(options.WorkingPath ?? AppContext.BaseDirectory, sourceFilename);
+
+      // TODO: If file is a zip and just needs the extension changes, then duplicate to new file with the proper extension. If Options.ReplaceOriginalFile is true then just rename the file instead of duplicating
+      // If file is not already a zip archive then extract and create a new zip archive with the contents of the original archive. If Options.ReplaceOriginalFile is set then delete original file
 
       using (Stream stream = File.OpenRead(sourcePath))
       using (var reader = ReaderFactory.Open(stream))
@@ -39,7 +43,7 @@ namespace ComicArchive
           if (!reader.Entry.IsDirectory)
           {
             Console.WriteLine(reader.Entry.Key);
-            
+
             reader.WriteEntryToDirectory(workingPath, new ExtractionOptions()
             {
               ExtractFullPath = true,
@@ -57,10 +61,6 @@ namespace ComicArchive
       }
 
       Directory.Delete(workingPath, true);
-
-      // If file is a zip and just needs the extension changes, then duplicate to new file with the proper extension. If Options.ReplaceOriginalFile is true then just rename the file instead of duplicating
-
-      // If file is not already a zip archive then extract and create a new zip archive with the contents of the original archive. If Options.ReplaceOriginalFile is set then delete original file
     }
   }
 }
