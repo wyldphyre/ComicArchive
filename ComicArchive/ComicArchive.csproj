@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="SharpCompress" Version="0.18.2" />
+  </ItemGroup>
+
 </Project>
