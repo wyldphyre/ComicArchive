@@ -22,7 +22,8 @@ namespace ComicArchive
 
   public class ConverterLogOptions
   {
-    public bool ShowFullPaths { get; set;}
+    public bool ShowFullPaths { get; set; }
+    public bool Verbose { get; set; }
   }
 
   public class Converter
@@ -85,6 +86,8 @@ namespace ComicArchive
       {
         var workingPath = Path.Combine(options.WorkingPath ?? AppContext.BaseDirectory, sourceFilename);
 
+        LogActivity($"Processing {sourcePath}");
+
         using (Stream stream = File.OpenRead(sourcePath))
         using (var reader = ReaderFactory.Open(stream))
         {
@@ -92,7 +95,7 @@ namespace ComicArchive
           {
             if (!reader.Entry.IsDirectory)
             {
-              Console.WriteLine(reader.Entry.Key);
+              //Console.WriteLine(reader.Entry.Key);
 
               reader.WriteEntryToDirectory(workingPath, new ExtractionOptions()
               {
