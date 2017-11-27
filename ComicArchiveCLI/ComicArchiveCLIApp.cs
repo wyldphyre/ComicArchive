@@ -18,14 +18,20 @@ namespace ComicArchiveCLI
 
     [Verb(Description = "Convert non-zip comic archives into zip archives.")]
     public static void Convert(
-      [Required]
-      [Description("The file or folder of files to convert")]
-      [PathExists] string sourcePath
+      [Required] 
+      [Description("The file or folder of files to convert.")]
+      [PathExists] 
+      string sourcePath,
+      [Description("If a file with the same name as the conversion target exists, replace it.")]
+      bool overwriteExisting,
+      [Description("Delete the original file once the conversion is complete.")]
+      bool replaceOriginalFile
       )
     {
       var options = new ComicArchive.ConverterOptions
       {
-        OverwriteExisting = true
+        OverwriteExisting = overwriteExisting,
+        ReplaceOriginalFile = replaceOriginalFile
       };
       //options.LogOptions.ShowFullPaths = true;
 
