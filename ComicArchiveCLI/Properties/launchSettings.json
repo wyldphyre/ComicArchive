@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ComicArchiveCLI": {
+      "commandName": "Project",
+      "commandLineArgs": "convert /s=\"F:\\Media\\Comics\\Testing\\Big Man Plans\\Big Man Plans 01 (of 04) (2015) (digital) (Son of Ultron-Empire).cbr\""
+    }
+  }
+}
