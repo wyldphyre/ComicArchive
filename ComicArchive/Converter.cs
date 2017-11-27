@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using SharpCompress;
 using SharpCompress.Archives;
@@ -85,6 +85,8 @@ namespace ComicArchive
       else
       {
         var workingPath = Path.Combine(options.WorkingPath ?? AppContext.BaseDirectory, sourceFilename);
+        
+        //TODO: return error if workingPath already exists. better to be safe than lose files
 
         LogActivity($"Processing {sourcePath}");
 

@@ -24,6 +24,6 @@ TODO:
 
 ## To Do
 
-- Implement handling of arguments for handing the `convert` command, and passing files and folders to be converted.
-- Implement conversion of files from .cbr to .cbz
-- Implement reading of metadata from archives, displaying it to standard out
+- Implement handling a folder as input to the `convert` command.
+- Implement reading of metadata from archives, displaying it to standard out. Support multiple archive formats for reading.
+- Implement writing of metadata to archives. Only zip files will be supported for writing.
