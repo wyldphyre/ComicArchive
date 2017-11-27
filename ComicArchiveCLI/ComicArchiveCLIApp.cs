@@ -56,13 +56,7 @@ namespace ComicArchiveCLI
       // TODO: output some stats on files skipped and files converted
     }
 
-    [Empty]
-    public static void ShowHelp()
-    {
-      Console.WriteLine("Help and usage goes here");
-    }
-
-    [Help]
+    [Empty, Help]
     public static void Help(string help)
     {
       Console.WriteLine(help);
