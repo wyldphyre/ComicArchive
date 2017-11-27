@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using CLAP;
 
 namespace ComicArchiveCLI
@@ -10,8 +11,11 @@ namespace ComicArchiveCLI
       Parser.Run<ComicArchiveCLIApp>(args);
 
 #if DEBUG
-      Console.WriteLine("Press ENTER to exit");
-      Console.ReadLine();
+      if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+      {
+        Console.WriteLine("Press ENTER to exit");
+        Console.ReadLine();
+      }
 #endif
     }
   }
