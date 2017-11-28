@@ -11,7 +11,7 @@ namespace ComicArchiveCLI
       Parser.Run<ComicArchiveCLIApp>(args);
 
 #if DEBUG
-      if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
       {
         Console.WriteLine("Press ENTER to exit");
         Console.ReadLine();
