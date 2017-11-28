@@ -37,6 +37,9 @@ namespace ComicArchive
     {
       convertedPath = string.Empty;
 
+      if (Directory.Exists(sourcePath))
+        return (false, $"Cannot convert because {sourcePath} is a directory.");
+
       if (!File.Exists(sourcePath))
         return (false, $"Cannot convert '{sourcePath}. File does not exist.");
       
@@ -86,8 +89,9 @@ namespace ComicArchive
       {
         var workingPath = Path.Combine(options.WorkingPath ?? AppContext.BaseDirectory, sourceFilename);
         
-        //TODO: return error if workingPath already exists. better to be safe than lose files
-
+        if (Directory.Exists(workingPath))
+          return (false, $"Cannot process file {sourceDisplayPath} because directory {workingPath} already exists!");
+        
         LogActivity($"Processing {sourcePath}");
 
         using (Stream stream = File.OpenRead(sourcePath))
@@ -119,7 +123,6 @@ namespace ComicArchive
         Directory.Delete(workingPath, true);
       }
 
-      // TODO: Check replacement functionality works
       if (options.ReplaceOriginalFile && File.Exists(sourcePath))
       {
         File.Delete(sourcePath);
