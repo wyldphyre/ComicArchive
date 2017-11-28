@@ -67,5 +67,12 @@ namespace ComicArchiveCLI
     {
       Console.WriteLine(help);
     }
+
+    [Error]
+    public static void Error(CLAP.ExceptionContext context)
+    {
+      Console.WriteLine(context.Exception.Message);
+      Console.WriteLine(context.Exception.StackTrace);
+    }
   }
 }
