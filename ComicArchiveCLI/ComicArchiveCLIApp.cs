@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 using CLAP;
 using CLAP.Validation;
@@ -25,7 +27,9 @@ namespace ComicArchiveCLI
       [Description("If a file with the same name as the conversion target exists, replace it.")]
       bool overwriteExisting,
       [Description("Delete the original file once the conversion is complete.")]
-      bool replaceOriginalFile
+      bool replaceOriginalFile,
+      [Description("Show full file paths instead of just the files name.")]
+      bool showFullPaths
       )
     {
       var options = new ComicArchive.ConverterOptions
@@ -33,23 +37,33 @@ namespace ComicArchiveCLI
         OverwriteExisting = overwriteExisting,
         ReplaceOriginalFile = replaceOriginalFile
       };
-      //options.LogOptions.ShowFullPaths = true;
+      options.LogOptions.ShowFullPaths = showFullPaths;
 
       var converter = new ComicArchive.Converter();
 
       converter.LogActivityEvent += (message) => Console.WriteLine(message);
 
+      var filePathsToConvert = new List<string>();
+
+      if (Directory.Exists(sourcePath))
+      {
+        var archivePaths = Directory.GetFiles(sourcePath)
+          .Where(path => !Path.GetFileName(path).StartsWith(".") && ComicArchive.ArchiveHelper.IsArchive(path));
+
+        filePathsToConvert.AddRange(archivePaths);
+      }
+      else if (File.Exists(sourcePath))
+        filePathsToConvert.Add(sourcePath);
+
       try
       {
-        var (result, message) = converter.ConvertToZipArchive(sourcePath, options, out var convertedPath);
+        foreach (var filePath in filePathsToConvert)
+        {
+          var (result, message) = converter.ConvertToZipArchive(filePath, options, out var convertedPath);
 
-        // Some paths for testing
-        //@"F:\Media\Comics\Testing\Big Man Plans\Big Man Plans 01 (of 04) (2015) (digital) (Son of Ultron-Empire).cbr"
-        //@"/Users/craigreynolds/Desktop/comictest/Big Hero 6 01 (of 05) (2008) (Digital) (AnPymGold-Empire).cbz"
-        //(@"/Users/craigreynolds/Desktop/comictest/Big Hero 6 01 (of 05) (2008) (Digital) (AnPymGold-Empire).zip"
-
-        if (!string.IsNullOrWhiteSpace(message))
-          Console.WriteLine(message);
+          if (!string.IsNullOrWhiteSpace(message))
+            Console.WriteLine(message);
+        }
       }
       catch (Exception e)
       {
@@ -72,7 +86,7 @@ namespace ComicArchiveCLI
     public static void Error(CLAP.ExceptionContext context)
     {
       Console.WriteLine(context.Exception.Message);
-      Console.WriteLine(context.Exception.StackTrace);
+      //Console.WriteLine(context.Exception.StackTrace);
     }
   }
 }
