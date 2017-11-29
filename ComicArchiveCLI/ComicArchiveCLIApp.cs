@@ -23,19 +23,19 @@ namespace ComicArchiveCLI
       [Required] 
       [Description("The file or folder of files to convert.")]
       [PathExists] 
-      string sourcePath,
+      string path,
       [Description("If a file with the same name as the conversion target exists, replace it.")]
-      bool overwriteExisting,
+      bool overwrite,
       [Description("Delete the original file once the conversion is complete.")]
-      bool replaceOriginalFile,
+      bool replace,
       [Description("Show full file paths instead of just the files name.")]
       bool showFullPaths
       )
     {
       var options = new ComicArchive.ConverterOptions
       {
-        OverwriteExisting = overwriteExisting,
-        ReplaceOriginalFile = replaceOriginalFile
+        OverwriteExisting = overwrite,
+        ReplaceOriginalFile = replace
       };
       options.LogOptions.ShowFullPaths = showFullPaths;
 
@@ -45,15 +45,15 @@ namespace ComicArchiveCLI
 
       var filePathsToConvert = new List<string>();
 
-      if (Directory.Exists(sourcePath))
+      if (Directory.Exists(path))
       {
-        var archivePaths = Directory.GetFiles(sourcePath)
-          .Where(path => !Path.GetFileName(path).StartsWith(".") && ComicArchive.ArchiveHelper.IsArchive(path));
+        var archivePaths = Directory.GetFiles(path)
+          .Where(p => !Path.GetFileName(p).StartsWith(".") && ComicArchive.ArchiveHelper.IsArchive(p));
 
         filePathsToConvert.AddRange(archivePaths);
       }
-      else if (File.Exists(sourcePath))
-        filePathsToConvert.Add(sourcePath);
+      else if (File.Exists(path))
+        filePathsToConvert.Add(path);
 
       try
       {
