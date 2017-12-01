@@ -13,9 +13,31 @@ namespace ComicArchiveCLI
     [Verb(Description = "Read the metadata for a comic archive. Only supports reading Comic Rack metadata.")]
     public static void Read(
       [Required]
-      [FileExists] string filePath
+      [FileExists] string path
       )
     {
+      if (Directory.Exists(path))
+      {
+        Console.WriteLine($"{path} is a directory. Pass a file path instead.");
+        return;
+      }
+
+      if (!ComicArchive.ArchiveHelper.IsArchive(path))
+      {
+        Console.WriteLine($"{path} is not an archive.");
+        return;
+      }
+
+      const string metadataFilename = "Comicinfo.xml";
+
+      var metadataFile = ComicArchive.ArchiveHelper.GetFile(path, metadataFilename);
+
+      if (metadataFile == null)
+        Console.WriteLine($"Could not locate '{metadataFilename}'");
+      else if (metadataFile.Length == 0)
+        Console.WriteLine($"Metadata file '{metadataFilename}' is empty");
+      else
+        Console.WriteLine(Encoding.UTF8.GetString(metadataFile));
     }
 
     [Verb(Description = "Convert non-zip comic archives into zip archives.")]
