@@ -6,11 +6,14 @@ using SharpCompress.Archives.GZip;
 using SharpCompress.Archives.SevenZip;
 using SharpCompress.Archives.Tar;
 using SharpCompress.Readers;
+using System;
 
 namespace ComicArchive
 {
   public static class ArchiveHelper
   {
+    public const string comicRackMetadataFilename = "Comicinfo.xml";
+
     public static bool IsArchive(string path)
     {
       if (Directory.Exists(path))
@@ -23,6 +26,11 @@ namespace ComicArchive
         TarArchive.IsTarFile(path);
     }
 
+    public static byte[] GetComicRackMetadataFile(string path)
+    {
+      return GetFile(path, comicRackMetadataFilename);
+    }
+
     public static byte[] GetFile(string path, string filename)
     {
       byte[] fileData = null;
@@ -32,14 +40,11 @@ namespace ComicArchive
       {
         while (reader.MoveToNextEntry() && fileData == null)
         {
-          if (!reader.Entry.IsDirectory)
+          if (string.Equals(reader.Entry.Key, filename, StringComparison.InvariantCultureIgnoreCase))
           {
-            if (string.Equals(reader.Entry.Key, filename))
-            {
-              var fileStream = new MemoryStream();
-              reader.WriteEntryTo(fileStream);
-              fileData = fileStream.GetBuffer();
-            }
+            var fileStream = new MemoryStream();
+            reader.WriteEntryTo(fileStream);
+            fileData = fileStream.GetBuffer();
           }
         }
       }
