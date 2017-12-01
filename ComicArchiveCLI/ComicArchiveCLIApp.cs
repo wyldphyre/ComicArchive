@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using CLAP;
 using CLAP.Validation;
+using ComicArchive;
 
 namespace ComicArchiveCLI
 {
@@ -28,16 +29,21 @@ namespace ComicArchiveCLI
         return;
       }
 
-      const string metadataFilename = "Comicinfo.xml";
+      try
+      {
+        var metadataFile = ArchiveHelper.GetComicRackMetadataFile(path);
 
-      var metadataFile = ComicArchive.ArchiveHelper.GetFile(path, metadataFilename);
-
-      if (metadataFile == null)
-        Console.WriteLine($"Could not locate '{metadataFilename}'");
-      else if (metadataFile.Length == 0)
-        Console.WriteLine($"Metadata file '{metadataFilename}' is empty");
-      else
-        Console.WriteLine(Encoding.UTF8.GetString(metadataFile));
+        if (metadataFile == null)
+          Console.WriteLine($"Could not locate '{ArchiveHelper.comicRackMetadataFilename}'");
+        else if (metadataFile.Length == 0)
+          Console.WriteLine($"Metadata file '{ArchiveHelper.comicRackMetadataFilename}' is empty");
+        else
+          Console.WriteLine(Encoding.UTF8.GetString(metadataFile));
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
     }
 
     [Verb(Description = "Convert non-zip comic archives into zip archives.")]
