@@ -31,7 +31,9 @@ namespace ComicArchiveCLI
 
       try
       {
-        var metadataFile = ArchiveHelper.GetComicRackMetadataFile(path);
+        var metadataFile = ArchiveHelper.GetComicRackMetadataFile(path); // should probably be in the library, not the helper
+        // TODO: Extend the library to parse metadata from the file name
+        // TODO: Extend the library to return an object representing the parsed archive metadata
 
         if (metadataFile == null)
           Console.WriteLine($"Could not locate '{ArchiveHelper.comicRackMetadataFilename}'");
