@@ -32,16 +32,20 @@ namespace ComicArchiveCLI
 
       try
       {
-        var metadataFile = ArchiveHelper.GetComicRackMetadataFile(path); // should probably be in the library, not the helper
-        // TODO: Extend the library to parse metadata from the file name
-        // TODO: Extend the library to return an object representing the parsed archive metadata
+        var comic = new ComicArchiveFile { FilePath = path };
+        comic.ReadMetadataFromArchive();
 
-        if (metadataFile == null)
-          Console.WriteLine($"Could not locate '{ArchiveHelper.comicRackMetadataFilename}'");
-        else if (metadataFile.Length == 0)
-          Console.WriteLine($"Metadata file '{ArchiveHelper.comicRackMetadataFilename}' is empty");
+        // TODO: Create a helper class for ComicInfo, along with an extension method to generate a text
+        // representation of the metadata present.
+        Console.WriteLine($"Title: {comic.ComicInfo.Title}");
+
+        if (!comic.HasMetadataStream || comic.MetadataStream.Length == 0)
+        {
+          // TODO: Extend the library to parse metadata from the file name
+          Console.WriteLine($"Comic Rack metadata file '{ArchiveHelper.comicRackMetadataFilename}' missing.");
+        }
         else
-          Console.WriteLine(Encoding.UTF8.GetString(metadataFile));
+          Console.WriteLine(Encoding.UTF8.GetString(comic.MetadataStream.GetBuffer()));
       }
       catch (Exception e)
       {
