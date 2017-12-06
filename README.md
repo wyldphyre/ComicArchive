@@ -6,9 +6,15 @@ A command line and library for manipulating comic archives (.cbz, .cbr, etc). Wr
 
 ### Command Line App
 
+The `read` command currently just dumps the XML metadata, if it is present in the archive. Better presentation is coming next.
+
 ### Comic Archive Library
 
-The library currently only supports a basic conversion of an archive to a zip archive.
+Things the library currently supports:
+
+- Conversion of various archive formats to a zip archive.
+- Extracting a file from an archive by name, based on a file path.
+- Determining if a file path is an archive.
 
 ## Usage
 
