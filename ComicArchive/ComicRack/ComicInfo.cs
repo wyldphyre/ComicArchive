@@ -77,7 +77,21 @@ public partial class ComicInfo {
     
     private YesNo blackAndWhiteField;
     
-    private YesNo mangaField;
+    private Manga mangaField;
+    
+    private string charactersField;
+    
+    private string teamsField;
+    
+    private string locationsField;
+    
+    private string scanInformationField;
+    
+    private string storyArcField;
+    
+    private string seriesGroupField;
+    
+    private AgeRating ageRatingField;
     
     private ComicPageInfo[] pagesField;
     
@@ -109,7 +123,14 @@ public partial class ComicInfo {
         this.languageISOField = "";
         this.formatField = "";
         this.blackAndWhiteField = YesNo.Unknown;
-        this.mangaField = YesNo.Unknown;
+        this.mangaField = Manga.Unknown;
+        this.charactersField = "";
+        this.teamsField = "";
+        this.locationsField = "";
+        this.scanInformationField = "";
+        this.storyArcField = "";
+        this.seriesGroupField = "";
+        this.ageRatingField = AgeRating.Unknown;
     }
     
     /// <remarks/>
@@ -410,13 +431,90 @@ public partial class ComicInfo {
     }
     
     /// <remarks/>
-    [System.ComponentModel.DefaultValueAttribute(YesNo.Unknown)]
-    public YesNo Manga {
+    [System.ComponentModel.DefaultValueAttribute(Manga.Unknown)]
+    public Manga Manga {
         get {
             return this.mangaField;
         }
         set {
             this.mangaField = value;
+        }
+    }
+    
+    /// <remarks/>
+    [System.ComponentModel.DefaultValueAttribute("")]
+    public string Characters {
+        get {
+            return this.charactersField;
+        }
+        set {
+            this.charactersField = value;
+        }
+    }
+    
+    /// <remarks/>
+    [System.ComponentModel.DefaultValueAttribute("")]
+    public string Teams {
+        get {
+            return this.teamsField;
+        }
+        set {
+            this.teamsField = value;
+        }
+    }
+    
+    /// <remarks/>
+    [System.ComponentModel.DefaultValueAttribute("")]
+    public string Locations {
+        get {
+            return this.locationsField;
+        }
+        set {
+            this.locationsField = value;
+        }
+    }
+    
+    /// <remarks/>
+    [System.ComponentModel.DefaultValueAttribute("")]
+    public string ScanInformation {
+        get {
+            return this.scanInformationField;
+        }
+        set {
+            this.scanInformationField = value;
+        }
+    }
+    
+    /// <remarks/>
+    [System.ComponentModel.DefaultValueAttribute("")]
+    public string StoryArc {
+        get {
+            return this.storyArcField;
+        }
+        set {
+            this.storyArcField = value;
+        }
+    }
+    
+    /// <remarks/>
+    [System.ComponentModel.DefaultValueAttribute("")]
+    public string SeriesGroup {
+        get {
+            return this.seriesGroupField;
+        }
+        set {
+            this.seriesGroupField = value;
+        }
+    }
+    
+    /// <remarks/>
+    [System.ComponentModel.DefaultValueAttribute(AgeRating.Unknown)]
+    public AgeRating AgeRating {
+        get {
+            return this.ageRatingField;
+        }
+        set {
+            this.ageRatingField = value;
         }
     }
     
@@ -445,6 +543,84 @@ public enum YesNo {
     
     /// <remarks/>
     Yes,
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+[System.SerializableAttribute()]
+public enum Manga {
+    
+    /// <remarks/>
+    Unknown,
+    
+    /// <remarks/>
+    No,
+    
+    /// <remarks/>
+    Yes,
+    
+    /// <remarks/>
+    YesAndRightToLeft,
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+[System.SerializableAttribute()]
+public enum AgeRating {
+    
+    /// <remarks/>
+    Unknown,
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("Adults Only 18+")]
+    AdultsOnly18,
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("Early Childhood")]
+    EarlyChildhood,
+    
+    /// <remarks/>
+    Everyone,
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("Everyone 10+")]
+    Everyone10,
+    
+    /// <remarks/>
+    G,
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("Kids to Adults")]
+    KidstoAdults,
+    
+    /// <remarks/>
+    M,
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("MA 15+")]
+    MA15,
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("Mature 17+")]
+    Mature17,
+    
+    /// <remarks/>
+    PG,
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("R18+")]
+    R18,
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("Rating Pending")]
+    RatingPending,
+    
+    /// <remarks/>
+    Teen,
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlEnumAttribute("X18+")]
+    X18,
 }
 
 /// <remarks/>
