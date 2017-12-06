@@ -4,21 +4,21 @@ using System.Xml.Serialization;
 
 namespace ComicArchive
 {
-  public sealed class ComicArchiveFile
+  public sealed class File
   {
     private MemoryStream metadataStream;
 
-    public ComicArchiveFile() 
+    public File() 
     {
       ComicInfo = new ComicInfo();
     }
 
-    public string FilePath { get; set; }
+    public string Path { get; set; }
     public ComicInfo ComicInfo { get; private set; }
 
     public void ReadMetadataFromArchive()
     {
-      metadataStream = ArchiveHelper.GetComicRackMetadataFile(FilePath);
+      metadataStream = ArchiveHelper.GetComicRackMetadataFile(Path);
 
       var serializer = new XmlSerializer(typeof(ComicInfo));
       ComicInfo = (ComicInfo)serializer.Deserialize(metadataStream);

@@ -32,7 +32,7 @@ namespace ComicArchiveCLI
 
       try
       {
-        var comic = new ComicArchiveFile { FilePath = path };
+        var comic = new ComicArchive.File { Path = path };
         comic.ReadMetadataFromArchive();
 
         // TODO: Create a helper class for ComicInfo, along with an extension method to generate a text
@@ -87,7 +87,7 @@ namespace ComicArchiveCLI
 
         filePathsToConvert.AddRange(archivePaths);
       }
-      else if (File.Exists(path))
+      else if (System.IO.File.Exists(path))
         filePathsToConvert.Add(path);
 
       try

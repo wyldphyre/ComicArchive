@@ -35,7 +35,7 @@ namespace ComicArchive
     {
       MemoryStream fileStream = null;
 
-      using (Stream stream = File.OpenRead(path))
+      using (Stream stream = System.IO.File.OpenRead(path))
       using (var reader = ReaderFactory.Open(stream))
       {
         while (reader.MoveToNextEntry() && fileStream == null)

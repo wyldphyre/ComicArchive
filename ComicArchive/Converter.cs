@@ -40,7 +40,7 @@ namespace ComicArchive
       if (Directory.Exists(sourcePath))
         return (false, $"Cannot convert because {sourcePath} is a directory.");
 
-      if (!File.Exists(sourcePath))
+      if (!System.IO.File.Exists(sourcePath))
         return (false, $"Cannot convert '{sourcePath}. File does not exist.");
       
       var sourceDirectory = Path.GetDirectoryName(sourcePath);
@@ -68,20 +68,20 @@ namespace ComicArchive
       if (string.Equals(sourcePath, convertedPath, StringComparison.CurrentCultureIgnoreCase))
         return (false, $"Skipping because target and destination are the same: '{sourceDisplayPath}'");
 
-      if (File.Exists(convertedPath) && !options.OverwriteExisting)
+      if (System.IO.File.Exists(convertedPath) && !options.OverwriteExisting)
         return (false, $"Cannot convert path '{sourceDisplayPath} to Zip. Target path '{convertedDisplayPath}' already exists");
 
       if (FileIsZip)
       {
-        if (File.Exists(convertedPath) && options.OverwriteExisting)
+        if (System.IO.File.Exists(convertedPath) && options.OverwriteExisting)
         {
-          File.Delete(convertedPath);
-          File.Copy(sourcePath, convertedPath);
+          System.IO.File.Delete(convertedPath);
+          System.IO.File.Copy(sourcePath, convertedPath);
           LogActivity($"Replaced '{sourceDisplayPath}' with '{convertedDisplayPath}'");
         }
         else
         {
-          File.Copy(sourcePath, convertedPath);
+          System.IO.File.Copy(sourcePath, convertedPath);
           LogActivity($"Copied '{sourceDisplayPath}' to '{convertedDisplayPath}'");
         }
       }
@@ -94,7 +94,7 @@ namespace ComicArchive
         
         LogActivity($"Processing {sourcePath}");
 
-        using (Stream stream = File.OpenRead(sourcePath))
+        using (Stream stream = System.IO.File.OpenRead(sourcePath))
         using (var reader = ReaderFactory.Open(stream))
         {
           while (reader.MoveToNextEntry())
@@ -123,9 +123,9 @@ namespace ComicArchive
         Directory.Delete(workingPath, true);
       }
 
-      if (options.ReplaceOriginalFile && File.Exists(sourcePath))
+      if (options.ReplaceOriginalFile && System.IO.File.Exists(sourcePath))
       {
-        File.Delete(sourcePath);
+        System.IO.File.Delete(sourcePath);
         LogActivity($"Deleted '{sourceDisplayPath}'");
       }
 
