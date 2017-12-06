@@ -38,5 +38,6 @@ TODO:
 ## To Do
 
 - Implement parsing of xml metadata into a more readable format for presentation on the command line.
+- Move the conversion of an archive inside the ComicArchiveFile abstraction.
 - Implement parsing of basic metadata from from a filename if metadata not present.
-- [Eventually] Implement writing of metadata to archives. Only zip files will be supported for writing.
+- [Eventually] Implement writing of metadata to archives. Only zip files will be supported for writing initially. Other open standard formats may be supported one day, but Zip is the only open commonly used format, so there is probably no demand to support other formats.
