@@ -37,7 +37,7 @@ namespace ComicArchiveCLI
 
         // TODO: Create a helper class for ComicInfo, along with an extension method to generate a text
         // representation of the metadata present.
-        Console.WriteLine($"Title: {comic.ComicInfo.Title}");
+        //Console.WriteLine($"Title: {comic.ComicInfo.Title}");
 
         if (!comic.HasMetadataStream || comic.MetadataStream.Length == 0)
         {
