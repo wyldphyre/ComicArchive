@@ -26,30 +26,30 @@ namespace ComicArchive
         TarArchive.IsTarFile(path);
     }
 
-    public static byte[] GetComicRackMetadataFile(string path)
+    public static MemoryStream GetComicRackMetadataFile(string path)
     {
       return GetFile(path, comicRackMetadataFilename);
     }
 
-    public static byte[] GetFile(string path, string filename)
+    public static MemoryStream GetFile(string path, string filename)
     {
-      byte[] fileData = null;
+      MemoryStream fileStream = null;
 
       using (Stream stream = File.OpenRead(path))
       using (var reader = ReaderFactory.Open(stream))
       {
-        while (reader.MoveToNextEntry() && fileData == null)
+        while (reader.MoveToNextEntry() && fileStream == null)
         {
           if (string.Equals(reader.Entry.Key, filename, StringComparison.InvariantCultureIgnoreCase))
           {
-            var fileStream = new MemoryStream();
+            fileStream = new MemoryStream();
             reader.WriteEntryTo(fileStream);
-            fileData = fileStream.GetBuffer();
+            fileStream.Position = 0;
           }
         }
       }
 
-      return fileData;
+      return fileStream;
     }
   }
 }
