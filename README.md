@@ -6,7 +6,7 @@ A command line and library for manipulating comic archives (.cbz, .cbr, etc). Wr
 
 ### Command Line App
 
-The `read` command currently just dumps the XML metadata, if it is present in the archive. Better presentation is coming next.
+The `read` command only looks for embedded Comic Rack metadata. If that is not present it doesn't yet attempt to parse any information from the name of the file.
 
 ### Comic Archive Library
 
