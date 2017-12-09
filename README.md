@@ -22,7 +22,7 @@ Things the library currently supports:
 
 ```
    read|r: Read the metadata for a comic archive. Only supports reading Comic Rack metadata.
-        /p /path : (String) (Required) (File exists)
+        /p /path : (String) (Required)
 
    convert|c: Convert non-zip comic archives into zip archives.
         /o /overwrite     : If a file with the same name as the conversion target exists, replace it.
