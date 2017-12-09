@@ -35,8 +35,13 @@ Things the library currently supports:
 
 TODO:
 
-## To Do
+## To Do List
+
+### Short Term
 
 - Move the conversion of an archive inside the ComicArchiveFile abstraction.
 - Implement parsing of basic metadata from from a filename if metadata not present.
+
+### Long Term
+
 - [Eventually] Implement writing of metadata to archives. Only zip files will be supported for writing initially. Other open standard formats may be supported one day, but Zip is the only open commonly used format, so there is probably no demand to support other formats.
