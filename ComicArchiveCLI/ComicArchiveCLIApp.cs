@@ -56,8 +56,7 @@ namespace ComicArchiveCLI
     [Verb(Description = "Convert non-zip comic archives into zip archives.")]
     public static void Convert(
       [Required] 
-	  [PathExists] 
-      [Description("The file or folder of files to convert.")]
+	    [Description("The file or folder of files to convert.")]
       string path,
       [Description("If a file with the same name as the conversion target exists, replace it.")]
       bool overwrite,
@@ -75,20 +74,30 @@ namespace ComicArchiveCLI
       options.LogOptions.ShowFullPaths = showFullPaths;
 
       var converter = new ComicArchive.Converter();
-
       converter.LogActivityEvent += (message) => Console.WriteLine(message);
 
-      var filePathsToConvert = new List<string>();
-
-      if (Directory.Exists(path))
+      var pathDirectory = Path.GetDirectoryName(path);
+      var pathFileMask = Path.GetFileName(path);
+      
+      if (!Directory.Exists(pathDirectory))
       {
-        var archivePaths = Directory.GetFiles(path)
-          .Where(p => !Path.GetFileName(p).StartsWith(".") && ComicArchive.ArchiveHelper.IsArchive(p));
-
-        filePathsToConvert.AddRange(archivePaths);
+        Console.WriteLine($"Directory '{pathDirectory}' does not exist.");
+        return;
       }
-      else if (System.IO.File.Exists(path))
-        filePathsToConvert.Add(path);
+
+      if (pathFileMask == string.Empty)
+        pathFileMask = "*.*";
+      
+      var pathDirectoryInfo = new DirectoryInfo(pathDirectory);
+      var filePathsToConvert = pathDirectoryInfo.GetFiles(pathFileMask)
+        .Where(fi => !fi.Name.StartsWith(".") && ComicArchive.ArchiveHelper.IsArchive(fi.FullName))
+        .Select(fi => fi.FullName);
+      
+      if (!filePathsToConvert.Any())
+      {
+        Console.WriteLine($"Could not find any files matching '{pathFileMask}' to convert.");
+        return;
+      }
 
       try
       {
