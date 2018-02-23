@@ -41,9 +41,9 @@ namespace ComicArchive
       if (!HasMetadataStream)
         ReadMetadataFromArchive();
 
-      BuildMetadataDisplayString(builder , "Title", ComicInfo.Title);
-      BuildMetadataDisplayString(builder , "Series", ComicInfo.Series);
-      BuildMetadataDisplayString(builder , "Series Group", ComicInfo.SeriesGroup);
+      BuildMetadataDisplayString(builder, "Title", ComicInfo.Title);
+      BuildMetadataDisplayString(builder, "Series", ComicInfo.Series);
+      BuildMetadataDisplayString(builder, "Series Group", ComicInfo.SeriesGroup);
       BuildMetadataDisplayString(builder, "Issue", ComicInfo.Number);
       BuildMetadataDisplayString(builder, "# Issues", ComicInfo.Count);
       BuildMetadataDisplayString(builder, "Volume", ComicInfo.Volume);
