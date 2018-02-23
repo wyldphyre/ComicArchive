@@ -33,10 +33,6 @@ namespace ComicArchiveCLI
         var comic = new ComicArchive.File { Path = path };
         comic.ReadMetadataFromArchive();
 
-        // TODO: Create a helper class for ComicInfo, along with an extension method to generate a text
-        // representation of the metadata present.
-        //Console.WriteLine($"Title: {comic.ComicInfo.Title}");
-
         if (!comic.HasMetadataStream || comic.MetadataStream.Length == 0)
         {
           // TODO: Extend the library to parse metadata from the file name
