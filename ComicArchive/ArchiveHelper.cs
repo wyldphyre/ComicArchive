@@ -21,8 +21,8 @@ namespace ComicArchive
 
       return ZipArchive.IsZipFile(path) ||
         RarArchive.IsRarFile(path) ||
-        GZipArchive.IsGZipFile (path) ||
         SevenZipArchive.IsSevenZipFile(path) ||
+        GZipArchive.IsGZipFile (path) ||
         TarArchive.IsTarFile(path);
     }
 
