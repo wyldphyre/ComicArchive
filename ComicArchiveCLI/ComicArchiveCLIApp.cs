@@ -12,7 +12,7 @@ namespace ComicArchiveCLI
     [Verb(Description = "Read the metadata for a comic archive. Only supports reading Comic Rack metadata.")]
     public static void Read(
       [Required]
-      [FileExists] 
+      [FileExists]
       string path
     )
     {
@@ -49,8 +49,8 @@ namespace ComicArchiveCLI
 
     [Verb(Description = "Convert non-zip comic archives into zip archives.")]
     public static void Convert(
-      [Required] 
-	    [Description("The file or folder of files to convert.")]
+      [Required]
+      [Description("The file or folder of files to convert.")]
       string path,
       [Description("If a file with the same name as the conversion target exists, replace it.")]
       bool overwrite,
@@ -72,16 +72,21 @@ namespace ComicArchiveCLI
 
       var pathDirectory = Path.GetDirectoryName(path);
       var pathFileMask = Path.GetFileName(path);
-      
+
       if (!Directory.Exists(pathDirectory))
       {
         Console.WriteLine($"Directory '{pathDirectory}' does not exist.");
         return;
       }
 
+      var alertOnInvalidArchives = true;
+
       if (pathFileMask == string.Empty)
+      {
         pathFileMask = "*.*";
-      
+        alertOnInvalidArchives = false;
+      }
+
       var pathDirectoryInfo = new DirectoryInfo(pathDirectory);
       var filePathsToConvert = pathDirectoryInfo.GetFiles(pathFileMask)
         .Where(fi => !fi.Name.StartsWith("."))
@@ -91,7 +96,11 @@ namespace ComicArchiveCLI
       {
         if (!ComicArchive.ArchiveHelper.IsArchive(filePath))
         {
-          Console.Beep();
+          if (alertOnInvalidArchives)
+          {
+            Console.Beep();
+          }
+
           Console.WriteLine($"{filePath} is not a valid archive!");
         }
       }
