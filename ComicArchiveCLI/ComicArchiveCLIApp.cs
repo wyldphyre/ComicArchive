@@ -35,7 +35,7 @@ namespace ComicArchiveCLI
 
         if (!comic.HasMetadataStream || comic.MetadataStream.Length == 0)
         {
-          // TODO: Extend the library to parse metadata from the file name
+          // TODO: Extend the library to parse metadata from the file name, if possible
           Console.WriteLine($"Comic Rack metadata file '{ArchiveHelper.comicRackMetadataFilename}' missing.");
         }
         else
@@ -84,9 +84,20 @@ namespace ComicArchiveCLI
       
       var pathDirectoryInfo = new DirectoryInfo(pathDirectory);
       var filePathsToConvert = pathDirectoryInfo.GetFiles(pathFileMask)
-        .Where(fi => !fi.Name.StartsWith(".") && ComicArchive.ArchiveHelper.IsArchive(fi.FullName))
+        .Where(fi => !fi.Name.StartsWith("."))
         .Select(fi => fi.FullName);
-      
+
+      foreach (var filePath in filePathsToConvert)
+      {
+        if (!ComicArchive.ArchiveHelper.IsArchive(filePath))
+        {
+          Console.Beep();
+          Console.WriteLine($"{filePath} is not a valid archive!");
+        }
+      }
+
+      filePathsToConvert = filePathsToConvert.Where(filePath => ComicArchive.ArchiveHelper.IsArchive(filePath));
+
       if (!filePathsToConvert.Any())
       {
         Console.WriteLine($"Could not find any files matching '{pathFileMask}' to convert.");
