@@ -21,8 +21,11 @@ namespace ComicArchive
     {
       metadataStream = ArchiveHelper.GetComicRackMetadataFile(Path);
 
-      var serializer = new XmlSerializer(typeof(ComicInfo));
-      ComicInfo = (ComicInfo)serializer.Deserialize(metadataStream);
+      if (metadataStream != null)
+      {
+        var serializer = new XmlSerializer(typeof(ComicInfo));
+        ComicInfo = (ComicInfo)serializer.Deserialize(metadataStream);
+      }
     }
 
     public bool HasMetadataStream
