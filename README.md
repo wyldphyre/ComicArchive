@@ -1,26 +1,28 @@
 # ComicArchive
 
-A command line and library for manipulating comic archives (.cbz, .cbr, etc). Written in C# and .Net Core 2.0.
+A command line app and library for manipulating comic archives (.cbz, .cbr, etc). Written in C# and .Net Core 2.0.
 
 ## Limitations
 
 ### Command Line App
 
-The `read` command only looks for embedded Comic Rack metadata. If that is not present it doesn't yet attempt to parse any information from the name of the file.
+- The `read` command looks for embedded Comic Rack metadata. If that isn't present then nothing is returned
+- The `convert` command line can convert a single archive (or a folder of archives) into a Zip based comic archive
 
 ### Comic Archive Library
 
 Things the library currently supports:
 
-- Conversion of various archive formats to a zip archive.
-- Extracting a file from an archive by name, based on a file path.
-- Determining if a file path is an archive.
+- Conversion of various archive formats to a zip archive (with a `.cbz` extension)
+- Extracting a file from an archive by name, based on a file path
+- Determining if a file path is an archive
+- Reading Comic Rack metadata from an archive
 
 ## Usage
 
 ### Command Line
 
-```
+```text
    read|r: Read the metadata for a comic archive. Only supports reading Comic Rack metadata.
         /p /path : (String) (Required)
 
