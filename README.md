@@ -40,7 +40,7 @@ TODO:
 ### Short Term
 
 - Move the conversion of an archive inside the ComicArchiveFile abstraction.
-- Implement parsing of basic metadata from from a filename if metadata not present.
+- Implement parsing of basic metadata from a filename if metadata not present.
 
 ### Long Term
 
