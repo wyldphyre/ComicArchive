@@ -28,6 +28,8 @@ namespace ComicArchive
 
   public class Converter
   {
+    private const string Zip_Comic_Archive_Extension = ".cbz";
+
     void LogActivity(string message)
     {
       LogActivityEvent?.Invoke(message);
@@ -45,7 +47,7 @@ namespace ComicArchive
       
       var sourceDirectory = Path.GetDirectoryName(sourcePath);
       var sourceFilename = Path.GetFileNameWithoutExtension(sourcePath);
-      convertedPath = Path.Combine(sourceDirectory, sourceFilename + ".cbz");
+      convertedPath = Path.Combine(sourceDirectory, sourceFilename + Zip_Comic_Archive_Extension);
 
       var sourceDisplayPath = sourcePath;
       var convertedDisplayPath = convertedPath;
@@ -58,7 +60,7 @@ namespace ComicArchive
 
       var FileIsZip = ZipArchive.IsZipFile(sourcePath);
 
-      if (FileIsZip && string.Equals(Path.GetExtension(sourcePath), ".cbz", StringComparison.CurrentCultureIgnoreCase))
+      if (FileIsZip && string.Equals(Path.GetExtension(sourcePath), Zip_Comic_Archive_Extension, StringComparison.CurrentCultureIgnoreCase))
       {
         LogActivity($"Skipping '{sourceDisplayPath}'. Already a zip archive");
         return (true, string.Empty);
