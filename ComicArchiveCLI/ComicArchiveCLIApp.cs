@@ -39,7 +39,7 @@ namespace ComicArchiveCLI
           Console.WriteLine($"Comic Rack metadata file '{ArchiveHelper.comicRackMetadataFilename}' missing.");
         }
         else
-          Console.WriteLine(comic.MetadataAsDisplayText());
+          Console.WriteLine(comic.MetadataAsText());
       }
       catch (Exception e)
       {
