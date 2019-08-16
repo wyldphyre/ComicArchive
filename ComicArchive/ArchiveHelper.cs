@@ -28,10 +28,10 @@ namespace ComicArchive
 
     public static MemoryStream GetComicRackMetadataFile(string path)
     {
-      return GetFile(path, comicRackMetadataFilename);
+      return GetFileFromArchive(path, comicRackMetadataFilename);
     }
 
-    public static MemoryStream GetFile(string path, string filename)
+    public static MemoryStream GetFileFromArchive(string path, string filename)
     {
       MemoryStream fileStream = null;
 
