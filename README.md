@@ -42,8 +42,8 @@ TODO:
 ### Short Term
 
 - Move the conversion of an archive inside the ComicArchiveFile abstraction.
-- Implement parsing of basic metadata from a filename if metadata not present.
+- Implement parsing and saving of basic metadata from a filename if metadata not present.
 
 ### Long Term
 
-- [Eventually] Implement writing of metadata to archives. Only zip files will be supported for writing initially. Other open standard formats may be supported one day, but Zip is the only open commonly used format, so there is probably no demand to support other formats.
+- [Eventually] Implement ability to write most/all metadata to archives. Only zip files will be supported for writing initially. Other open standard formats may be supported one day, but Zip is the only open commonly used format, so there is probably no demand to support other formats. I see no benefit from using RAR that is worth taking the dependency on a prioprietary 3rd party tool and philosophically oppose the use of RAR for comic archives.
