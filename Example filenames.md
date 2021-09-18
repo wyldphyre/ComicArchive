@@ -6,6 +6,7 @@ The lists are broken into formats I consider common, and ones I consider uncommo
 
 ## Common file name structures
 
+- Vampeerz v1 ch01.cbz
 - Assassination Classroom v01 (2014) (Digital) (Lovag-Empire).cbz
 - Assassination Classroom v01.cbz
 - Assassination Classroom 01.cbz
@@ -51,4 +52,4 @@ Some of these can probably be handled programatically, but I think others should
 
 These are examples that would probably be difficult to impossible to work out automatically.
 
-- Change 123.cbz : This is the full name of the manga, not series name with an issue/chapter number
+- Change 123.cbz : This is the full name of the manga, not a series name with an issue/chapter number
