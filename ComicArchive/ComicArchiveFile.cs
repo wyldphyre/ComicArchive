@@ -5,6 +5,9 @@ using System.Xml.Serialization;
 
 namespace ComicArchive
 {
+    /// <summary>
+    /// Represents a comic archive (.cbz, .cbr, etc)
+    /// </summary>
     public sealed class File
     {
         private MemoryStream metadataStream;
@@ -14,8 +17,22 @@ namespace ComicArchive
             ComicInfo = new ComicInfo();
         }
 
+        /// <summary>
+        /// The filesystem path of the archive
+        /// </summary>
         public string Path { get; set; }
+
+        /// <summary>
+        /// Metadata extracted from the archive
+        /// </summary>
         public ComicInfo ComicInfo { get; private set; }
+
+        /// <summary>
+        /// Indicates whether a metadata file was found in the archive
+        /// </summary>
+        public bool HasMetadataStream => metadataStream != null;
+        
+        public MemoryStream MetadataStream => metadataStream;
 
         public void ReadMetadataFromArchive()
         {
@@ -28,8 +45,10 @@ namespace ComicArchive
             }
         }
 
-        public bool HasMetadataStream => metadataStream != null;
-        public MemoryStream MetadataStream => metadataStream;
+        public static ComicInfo ParseFilename()
+        {
+            return null;
+        }
 
         public string MetadataAsText()
         {
