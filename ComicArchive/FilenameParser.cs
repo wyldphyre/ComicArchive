@@ -3,23 +3,56 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ComicArchive
 {
     public static class FilenameParser
     {
+        private const string volumeRegex = @"(v|vol)(\d+)";
+
         [CanBeNull]
         public static ParsedFilenameData Parse(string filename)
         {
             var result = new ParsedFilenameData();
             var tokens = TokeniseToWords(filename);
+            string previousToken = null;
 
             var index = 0;
             while (index < tokens.Length)
             {
-                index++;
 
                 // TODO: Implement examination of tokens to extract data
+                var token = tokens[index];
+                var trimmedToken = token?.Trim();
+
+                if (trimmedToken.Equals("vol", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    if (index + 1 < tokens.Length)
+                    {
+                        var volume = tokens[index + 1];
+                        if (int.TryParse(volume.Trim(), out var parsedVoume))
+                        {
+                            result.Volume = parsedVoume;
+                            index++;
+                        }
+                    }
+                }
+                else if (Regex.Match(token, volumeRegex).Success)
+                {
+                    var volumeMatch = Regex.Match(token, volumeRegex);
+                    var group = volumeMatch.Groups.Last();
+                    var volume = group.Value;
+
+                    if (int.TryParse(volume.Trim(), out var parsedVoume))
+                    {
+                        result.Volume = parsedVoume;
+                        index++;
+                    }
+                }
+
+                previousToken = token;
+                index++;
             }
 
             return result;

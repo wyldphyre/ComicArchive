@@ -13,14 +13,14 @@ namespace ComicArchive.Tests
             FilenameParser.TokeniseToWords(filename).ShouldBe(tokens);
         }
 
-        //[Theory]
-        //[MemberData(nameof(FilenameSampleData))]
-        //public void TestVolumn(string filename, ParsedFilenameData data)
-        //{
-        //    FilenameParser.Parse(filename).Volume.ShouldBe(data.Volume);
-        //}
+        [Theory]
+        [MemberData(nameof(ParseSampleData))]
+        public void TestParse(string filename, ParsedFilenameData data)
+        {
+            FilenameParser.Parse(filename).Volume.ShouldBe(data.Volume);
+        }
 
-        public static TheoryData<string, ParsedFilenameData> FilenameSampleData = new TheoryData<string, ParsedFilenameData>()
+        public static TheoryData<string, ParsedFilenameData> ParseSampleData = new TheoryData<string, ParsedFilenameData>()
         {
             // Common filename patterns
             { "Vampeerz v1 ch01.cbz", new ParsedFilenameData { Volume = 1 } },
@@ -30,6 +30,7 @@ namespace ComicArchive.Tests
             { "Assassination Classroom vol01.cbz", new ParsedFilenameData { Volume = 1 } },
             { "Assassination Classroom vol10.cbz", new ParsedFilenameData { Volume = 10 } },
             { "Assassination Classroom vol 10.cbz", new ParsedFilenameData { Volume = 10 } },
+            { "Assassination Classroom vol NotA Volume.cbz", new ParsedFilenameData { } },
             { "Assassination Classroom 01.cbz", new ParsedFilenameData { } },
             { "Assassination Classroom ch01.cbz", new ParsedFilenameData { } },
             { "Assassination Classroom ch 01.cbz", new ParsedFilenameData { } },
