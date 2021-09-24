@@ -9,8 +9,6 @@ namespace ComicArchive
 {
     public static class FilenameParser
     {
-        private const string volumeRegex = @"(v|vol)(\d+)";
-
         [CanBeNull]
         public static ParsedFilenameData Parse(string filename)
         {
@@ -38,17 +36,10 @@ namespace ComicArchive
                         }
                     }
                 }
-                else if (Regex.Match(token, volumeRegex).Success)
+                else if (TryVolumeParse(token, out var parsedVolume))
                 {
-                    var volumeMatch = Regex.Match(token, volumeRegex);
-                    var group = volumeMatch.Groups.Last();
-                    var volume = group.Value;
-
-                    if (int.TryParse(volume.Trim(), out var parsedVoume))
-                    {
-                        result.Volume = parsedVoume;
-                        index++;
-                    }
+                    result.Volume = parsedVolume;
+                    index++;
                 }
 
                 previousToken = token;
@@ -108,6 +99,18 @@ namespace ComicArchive
             }
 
             return tokens.ToArray();
+        }
+
+        private static bool TryVolumeParse(string token, out int volume)
+        {
+            if (token.StartsWith("v", StringComparison.CurrentCultureIgnoreCase) && int.TryParse(token.Substring(1, token.Length - 1), out volume))
+               return true;
+            
+            if (token.StartsWith("vol", StringComparison.CurrentCultureIgnoreCase) && int.TryParse(token.Substring(3, token.Length - 3), out volume))
+                return true;
+
+            volume = 0;
+            return false;
         }
     }
 }
