@@ -29,17 +29,58 @@ namespace ComicArchive
                     if (index + 1 < tokens.Length)
                     {
                         var volume = tokens[index + 1];
-                        if (int.TryParse(volume.Trim(), out var parsedVoume))
+                        if (int.TryParse(volume.Trim(), out var parsedVolume))
                         {
-                            result.Volume = parsedVoume;
+                            result.Volume = parsedVolume;
                             index++;
                         }
                     }
                 }
-                else if (TryVolumeParse(token, out var parsedVolume))
+                else if (TryVolumeParse(token.Trim(), out var parsedVolume))
                 {
                     result.Volume = parsedVolume;
+                }
+                else if (trimmedToken.Equals("ch", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    if (index + 1 < tokens.Length)
+                    {
+                        var potentialNumber = tokens[index + 1].Trim();
+                        if (float.TryParse(potentialNumber, out var parsedNumber))
+                        {
+                            result.Number = potentialNumber.TrimStart('0');
+                            index++;
+                        }
+                    }
+                }
+                else if (TryParseNumber(token.Trim(), out var parsedNumber))
+                {
+                    result.Number = parsedNumber;
                     index++;
+                }
+                else if (float.TryParse(token.Trim(), out _))
+                {
+                    // a token that is a float on its own with:
+                    //   - no preceeding token to indicate it is a chapter/number or volume
+                    //   - no following tokens that could be a chapter/number
+                    // can be considered to be the chapter if we haven't already matched such a token
+
+                    if (result.Number is null)
+                    {
+                        if (previousToken != "vol")
+                        {
+                            var hasFollowingNumbers = false;
+                            var testIndex = index + 1;
+                            while (testIndex < tokens.Length && !hasFollowingNumbers)
+                            {
+                                var followingToken = tokens[testIndex];
+                                hasFollowingNumbers = float.TryParse(followingToken, out _);
+                                testIndex++;
+                            }
+
+                            if (!hasFollowingNumbers)
+                                result.Number = token.Trim().TrimStart('0');
+                        }
+                    }
                 }
 
                 previousToken = token;
@@ -110,6 +151,28 @@ namespace ComicArchive
                 return true;
 
             volume = 0;
+            return false;
+        }
+
+        private static bool TryParseNumber(string token, out string number)
+        {
+            var chapterPrefixes = new[] { "ch", "c" };
+
+            foreach (var prefix in chapterPrefixes)
+            {
+                if (token.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    var potentialNumber = token.Substring(prefix.Length, token.Length - prefix.Length);
+
+                    if (float.TryParse(potentialNumber, out _))
+                    {
+                        number = potentialNumber.TrimStart('0');
+                        return true;
+                    }
+                }
+            }
+
+            number = null;
             return false;
         }
     }

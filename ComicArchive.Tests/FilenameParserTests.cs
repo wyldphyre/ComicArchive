@@ -68,7 +68,9 @@ namespace ComicArchive.Tests
             { "Assassination Classroom vol NotA Volume.cbz", new ParsedFilenameData { Series = "Assassination Classroom" } },
             { "Assassination Classroom 01.cbz", new ParsedFilenameData { Number = "1", Series = "Assassination Classroom" } },
             { "Assassination Classroom ch01.cbz", new ParsedFilenameData { Number = "1", Series = "Assassination Classroom" } },
+            { "Assassination Classroom c01.cbz", new ParsedFilenameData { Number = "1", Series = "Assassination Classroom" } },
             { "Assassination Classroom ch 01.cbz", new ParsedFilenameData { Number = "1", Series = "Assassination Classroom" } },
+            { "Assassination Classroom ch 10.1.cbz", new ParsedFilenameData { Number = "10.1", Series = "Assassination Classroom" } },
             { "Ah My Goddess 1.cbz", new ParsedFilenameData { Number = "1", Series = "Assassination Ah My Goddess" } },
             { "Ah My Goddess 10.cbz", new ParsedFilenameData { Number = "10", Series = "Assassination Ah My Goddess" } },
             { "Claymore 001 - Silver-eyed Slayer[m-s].cbz", new ParsedFilenameData { Number = "1", Name = "Silver-eyed Slayer", Series = "Claymore" } }, // : includes chapter name
