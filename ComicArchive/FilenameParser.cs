@@ -36,7 +36,7 @@ namespace ComicArchive
                         }
                     }
                 }
-                else if (TryVolumeParse(token.Trim(), out var parsedVolume))
+                else if (TryVolumeParse(trimmedToken, out var parsedVolume))
                 {
                     result.Volume = parsedVolume;
                 }
@@ -53,11 +53,16 @@ namespace ComicArchive
                     }
                 }
                 else if (TryParseNumber(token.Trim(), out var parsedNumber))
+                else if (TryParseNumber(trimmedToken, out var parsedNumber))
                 {
                     result.Number = parsedNumber;
                     index++;
                 }
                 else if (float.TryParse(token.Trim(), out _))
+                else if (TryParseYear(trimmedToken, out var parsedYear))
+                {
+                    result.Year = parsedYear;
+                }
                 {
                     // a token that is a float on its own with:
                     //   - no preceeding token to indicate it is a chapter/number or volume
@@ -78,7 +83,7 @@ namespace ComicArchive
                             }
 
                             if (!hasFollowingNumbers)
-                                result.Number = token.Trim().TrimStart('0');
+                                result.Number = trimmedToken.TrimStart('0');
                         }
                     }
                 }
@@ -145,8 +150,8 @@ namespace ComicArchive
         private static bool TryVolumeParse(string token, out int volume)
         {
             if (token.StartsWith("v", StringComparison.CurrentCultureIgnoreCase) && int.TryParse(token.Substring(1, token.Length - 1), out volume))
-               return true;
-            
+                return true;
+
             if (token.StartsWith("vol", StringComparison.CurrentCultureIgnoreCase) && int.TryParse(token.Substring(3, token.Length - 3), out volume))
                 return true;
 
@@ -173,6 +178,23 @@ namespace ComicArchive
             }
 
             number = null;
+            return false;
+        }
+
+        private static bool TryParseYear(string token, out int parsedYear)
+        {
+            parsedYear = 0;
+
+            if (token.Length != 6)
+                return false;
+
+            if (token.StartsWith('[') && token.EndsWith(']') || token.StartsWith('(') && token.EndsWith(')'))
+            {
+                var potentialYear = token.Substring(1, 4);
+
+                return int.TryParse(potentialYear, out parsedYear);
+            }
+
             return false;
         }
     }
