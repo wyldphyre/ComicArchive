@@ -7,6 +7,13 @@ namespace ComicArchive.Tests
     public partial class FilenameParserTests
     {
         [Theory]
+        [MemberData(nameof(ParseSampleData))]
+        public void TestParse(string filename, ParsedFilenameData data)
+        {
+            FilenameParser.Parse(filename).ShouldBeEquivalentTo(data);
+        }
+
+        [Theory]
         [MemberData(nameof(TokenisedFilenameData))]
         public void TestTokeniseToWords(string filename, string[] tokens)
         {
@@ -75,7 +82,7 @@ namespace ComicArchive.Tests
             { "Ah My Goddess 10.cbz", new ParsedFilenameData { Number = "10", Series = "Assassination Ah My Goddess" } },
             { "Claymore 001 - Silver-eyed Slayer[m-s].cbz", new ParsedFilenameData { Number = "1", Name = "Silver-eyed Slayer", Series = "Claymore" } }, // : includes chapter name
             { "Claymore 002 - Claws in the Sky[m-s].cbz", new ParsedFilenameData { Number = "2", Name = "Claws in the sky", Series = "Claymore" } }, // : includes chapter name
-            { "[Tokuwotsumu] Tea Brown and Milk Tea [TZdY].cbz", new ParsedFilenameData { Series = "Tea Brown and Milk Tea" } },
+            { "[Tokuwotsumu] Tea Brown and Milk Tea [TZdY].cbz", new ParsedFilenameData { Series = "Tea Brown and Milk Tea", Artist = "Tokuwotsumu" } },
             { "(Isoya Yuki) The Day the Cherryfruit Ripens (Hirari 14) [project].cbz", new ParsedFilenameData { Series = "The Day the Cherryfruit Ripens", Artist = "Isoya Yuki" } },
             { "[Garun] I Could Just Tell.cbz", new ParsedFilenameData { Series = "I Could Just Tell", Artist = "Garun" } },
             { "[Takemiya Jin] Yaezakura Sympathy 1 [TZdY].cbz", new ParsedFilenameData { Artist = "Takemiya Jin", Series = "Yaesakura Sympathy", Number = "1" } },

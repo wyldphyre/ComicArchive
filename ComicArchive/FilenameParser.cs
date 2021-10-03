@@ -52,17 +52,20 @@ namespace ComicArchive
                         }
                     }
                 }
-                else if (TryParseNumber(token.Trim(), out var parsedNumber))
                 else if (TryParseNumber(trimmedToken, out var parsedNumber))
                 {
                     result.Number = parsedNumber;
                     index++;
                 }
-                else if (float.TryParse(token.Trim(), out _))
                 else if (TryParseYear(trimmedToken, out var parsedYear))
                 {
                     result.Year = parsedYear;
                 }
+                else if (index == 0 && TryParseArtist(trimmedToken, out var parsedArtist))
+                {
+                    result.Artist = parsedArtist;
+                }
+                else if (float.TryParse(trimmedToken, out _))
                 {
                     // a token that is a float on its own with:
                     //   - no preceeding token to indicate it is a chapter/number or volume
@@ -193,6 +196,19 @@ namespace ComicArchive
                 var potentialYear = token.Substring(1, 4);
 
                 return int.TryParse(potentialYear, out parsedYear);
+            }
+
+            return false;
+        }
+
+        private static bool TryParseArtist(string token, out string parsedArtist)
+        {
+            parsedArtist = null;
+
+            if (token.StartsWith('[') && token.EndsWith(']') || token.StartsWith('(') && token.EndsWith(')'))
+            {
+                parsedArtist = token.Substring(1, token.Length - 2).Trim();
+                return true;
             }
 
             return false;
