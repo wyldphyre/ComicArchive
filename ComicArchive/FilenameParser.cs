@@ -9,6 +9,9 @@ namespace ComicArchive
 {
     public static class FilenameParser
     {
+        private static readonly string[] volumePreceedingTokens = new[] { "vol", "vol.", "volume", "volume." };
+        private static readonly string[] chapterPreceedingTokens = new[] { "ch", "ch.", "ch.", "chp." };
+
         [CanBeNull]
         public static ParsedFilenameData Parse(string filename)
         {
@@ -24,7 +27,7 @@ namespace ComicArchive
                 var token = tokens[index];
                 var trimmedToken = token?.Trim();
 
-                if (trimmedToken.Equals("vol", StringComparison.CurrentCultureIgnoreCase))
+                if (volumePreceedingTokens.Any(t => t.Equals(trimmedToken, StringComparison.CurrentCultureIgnoreCase)))
                 {
                     if (index + 1 < tokens.Length)
                     {
@@ -40,7 +43,7 @@ namespace ComicArchive
                 {
                     result.Volume = parsedVolume;
                 }
-                else if (trimmedToken.Equals("ch", StringComparison.CurrentCultureIgnoreCase))
+                else if (chapterPreceedingTokens.Any(t => t.Equals(trimmedToken, StringComparison.CurrentCultureIgnoreCase)))
                 {
                     if (index + 1 < tokens.Length)
                     {
