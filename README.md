@@ -39,6 +39,10 @@ TODO:
 
 ## To Do List
 
+### Priority
+
+- Switch to a better command line parser (try CommandLine).
+
 ### Short Term
 
 - Move the conversion of an archive inside the ComicArchiveFile abstraction.
