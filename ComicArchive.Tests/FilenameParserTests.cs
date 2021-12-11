@@ -91,7 +91,8 @@ namespace ComicArchive.Tests
             { "Ah My Goddess 1.cbz", new ParsedFilenameData { Number = "1", Series = "Assassination Ah My Goddess" } },
             { "Ah My Goddess 10.cbz", new ParsedFilenameData { Number = "10", Series = "Assassination Ah My Goddess" } },
             { "Claymore 001 - Silver-eyed Slayer[m-s].cbz", new ParsedFilenameData { Number = "1", Name = "Silver-eyed Slayer", Series = "Claymore" } }, // : includes chapter name
-            { "Claymore 002 - Claws in the Sky [m-s].cbz", new ParsedFilenameData { Number = "2", Name = "Claws in the sky", Series = "Claymore" } }, // : includes chapter name
+            { "Claymore 002 - Claws in the Sky [m-s].cbz", new ParsedFilenameData { Number = "2", Name = "Claws in the Sky", Series = "Claymore" } }, // : includes chapter name
+            { "Claymore 002 - [m-s] Claws in the Sky.cbz", new ParsedFilenameData { Number = "2", Name = "Claws in the Sky", Series = "Claymore" } }, // : includes chapter name
             { "[Tokuwotsumu] Tea Brown and Milk Tea [TZdY].cbz", new ParsedFilenameData { Series = "Tea Brown and Milk Tea", Artist = "Tokuwotsumu" } },
             { "(Isoya Yuki) The Day the Cherryfruit Ripens (Hirari 14) [project].cbz", new ParsedFilenameData { Series = "The Day the Cherryfruit Ripens", Artist = "Isoya Yuki" } },
             { "[Garun] I Could Just Tell.cbz", new ParsedFilenameData { Series = "I Could Just Tell", Artist = "Garun" } },
@@ -102,6 +103,8 @@ namespace ComicArchive.Tests
             { "volume 04.cbz", new ParsedFilenameData { Volume = 4 } },
             { "volume. 04.cbz", new ParsedFilenameData { Volume = 4 } },
             { "05 - Let's Be Careful With Summer.cbz", new ParsedFilenameData { Number = "5", Name = "Let's Be Careful With Summer" } }, // : assume chapter number and name
+            { "05 - Let's Be Careful With Summer (test) [test].cbz", new ParsedFilenameData { Number = "5", Name = "Let's Be Careful With Summer" } }, // : assume chapter number and name
+            { "05 - Let's Be Careful With Summer(test)[test].cbz", new ParsedFilenameData { Number = "5", Name = "Let's Be Careful With Summer" } }, // : assume chapter number and name
             { "2000 AD 0001.cbz", new ParsedFilenameData { Number = "1", Series = "2000 AD" } },
             { "2000 AD 0345 (Cclay).cbz", new ParsedFilenameData { Number = "345", Series = "2000 AD" } },
             { "Ascender 001 (2019) (Digital) (Zone-Empire).cbz", new ParsedFilenameData { Number = "1", Series = "Ascender", Year = 2019 } },

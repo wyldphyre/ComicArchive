@@ -68,6 +68,23 @@ namespace ComicArchive
                 {
                     result.Artist = parsedArtist;
                 }
+                else if (trimmedToken == "-")
+                {
+                    // what follows a '-' character should be considered the name of the issue, excluding stuff surrounded by brackets
+
+                    // get rest of text
+                    var remainingText = string.Join(' ', tokens.TakeLast(tokens.Length - ++index));
+                    index = tokens.Length - 1;
+
+                    // remove any bracketed content
+                    remainingText = Regex.Replace(remainingText, @"\(.*\)", string.Empty);
+                    remainingText = Regex.Replace(remainingText, @"\[.*\]", string.Empty);
+
+                    // normalise spacing to once space
+                    remainingText = string.Join(' ', remainingText.Split(' ').Where(s => !string.IsNullOrWhiteSpace(s)));
+
+                    result.Name = remainingText.Trim();
+                }
                 else if (float.TryParse(trimmedToken, out _))
                 {
                     // a token that is a float on its own with:
