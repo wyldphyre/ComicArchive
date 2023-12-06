@@ -10,7 +10,7 @@ namespace ComicArchive
     public static class FilenameParser
     {
         private static readonly string[] volumePreceedingTokens = new[] { "vol", "vol.", "volume", "volume." };
-        private static readonly string[] chapterPreceedingTokens = new[] { "ch", "ch.", "ch.", "chp." };
+        private static readonly string[] chapterPreceedingTokens = new[] { "ch", "ch.", "ch.", "chp.", "chapter" };
 
         [CanBeNull]
         public static ParsedFilenameData Parse(string filename)
@@ -18,6 +18,8 @@ namespace ComicArchive
             var result = new ParsedFilenameData();
             var tokens = TokeniseToWords(filename);
             string previousToken = null;
+            var seriesTokens = new List<string>();
+            var isPastSeries = false;
 
             var index = 0;
             while (index < tokens.Length)
@@ -26,9 +28,12 @@ namespace ComicArchive
                 // TODO: Implement examination of tokens to extract data
                 var token = tokens[index];
                 var trimmedToken = token?.Trim();
+                var nextToken = index < tokens.Length - 1 ? tokens[index + 1]?.Trim() : null;
 
                 if (volumePreceedingTokens.Any(t => t.Equals(trimmedToken, StringComparison.CurrentCultureIgnoreCase)))
                 {
+                    isPastSeries = true;
+
                     if (index + 1 < tokens.Length)
                     {
                         var volume = tokens[index + 1];
@@ -42,15 +47,19 @@ namespace ComicArchive
                 else if (TryVolumeParse(trimmedToken, out var parsedVolume))
                 {
                     result.Volume = parsedVolume;
+                    isPastSeries = true;
                 }
                 else if (chapterPreceedingTokens.Any(t => t.Equals(trimmedToken, StringComparison.CurrentCultureIgnoreCase)))
                 {
+                    isPastSeries = true;
+
                     if (index + 1 < tokens.Length)
                     {
                         var potentialNumber = tokens[index + 1].Trim();
                         if (float.TryParse(potentialNumber, out var parsedNumber))
                         {
                             result.Number = potentialNumber.TrimStart('0');
+                            isPastSeries = true;
                             index++;
                         }
                     }
@@ -58,15 +67,19 @@ namespace ComicArchive
                 else if (TryParseNumber(trimmedToken, out var parsedNumber))
                 {
                     result.Number = parsedNumber;
+                    isPastSeries = true;
                     index++;
                 }
                 else if (TryParseYear(trimmedToken, out var parsedYear))
                 {
                     result.Year = parsedYear;
+                    isPastSeries = true;
                 }
-                else if (index == 0 && TryParseArtist(trimmedToken, out var parsedArtist))
+                else if (TryParseArtist(trimmedToken, out var parsedArtist))
                 {
-                    result.Artist = parsedArtist;
+                    // Only accept bracketted content in the first position
+                    if (index == 0)
+                        result.Artist = parsedArtist;
                 }
                 else if (trimmedToken == "-")
                 {
@@ -84,8 +97,10 @@ namespace ComicArchive
                     remainingText = string.Join(' ', remainingText.Split(' ').Where(s => !string.IsNullOrWhiteSpace(s)));
 
                     result.Name = remainingText.Trim();
+                    isPastSeries = true;
                 }
-                else if (float.TryParse(trimmedToken, out _))
+                else if (float.TryParse(trimmedToken, out _) && 
+                    (trimmedToken.Contains(".") || seriesTokens.Count > 0 || tokens.Length == 1 || nextToken == "-"))
                 {
                     // a token that is a float on its own with:
                     //   - no preceeding token to indicate it is a chapter/number or volume
@@ -106,14 +121,25 @@ namespace ComicArchive
                             }
 
                             if (!hasFollowingNumbers)
+                            {
                                 result.Number = trimmedToken.TrimStart('0');
+                                isPastSeries = true;
+                            }
                         }
                     }
+                }
+                else
+                {
+                    if (!isPastSeries)
+                        seriesTokens.Add(trimmedToken);
                 }
 
                 previousToken = token;
                 index++;
             }
+
+            if (seriesTokens.Count > 0) 
+                result.Series = string.Join(" ", seriesTokens);
 
             return result;
         }

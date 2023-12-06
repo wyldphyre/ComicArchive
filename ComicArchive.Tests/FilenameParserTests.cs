@@ -88,15 +88,15 @@ namespace ComicArchive.Tests
             { "Assassination Classroom chapter 01.cbz", new ParsedFilenameData { Number = "1", Series = "Assassination Classroom" } },
             { "Assassination Classroom Chapter 10.1.cbz", new ParsedFilenameData { Number = "10.1", Series = "Assassination Classroom" } },
             { "Assassination Classroom Vol. 001 Ch. 001.cbz", new ParsedFilenameData { Number = "1", Volume=1, Series = "Assassination Classroom" } },
-            { "Ah My Goddess 1.cbz", new ParsedFilenameData { Number = "1", Series = "Assassination Ah My Goddess" } },
-            { "Ah My Goddess 10.cbz", new ParsedFilenameData { Number = "10", Series = "Assassination Ah My Goddess" } },
+            { "Ah My Goddess 1.cbz", new ParsedFilenameData { Number = "1", Series = "Ah My Goddess" } },
+            { "Ah My Goddess 10.cbz", new ParsedFilenameData { Number = "10", Series = "Ah My Goddess" } },
             { "Claymore 001 - Silver-eyed Slayer[m-s].cbz", new ParsedFilenameData { Number = "1", Name = "Silver-eyed Slayer", Series = "Claymore" } }, // : includes chapter name
             { "Claymore 002 - Claws in the Sky [m-s].cbz", new ParsedFilenameData { Number = "2", Name = "Claws in the Sky", Series = "Claymore" } }, // : includes chapter name
             { "Claymore 002 - [m-s] Claws in the Sky.cbz", new ParsedFilenameData { Number = "2", Name = "Claws in the Sky", Series = "Claymore" } }, // : includes chapter name
             { "[Tokuwotsumu] Tea Brown and Milk Tea [TZdY].cbz", new ParsedFilenameData { Series = "Tea Brown and Milk Tea", Artist = "Tokuwotsumu" } },
             { "(Isoya Yuki) The Day the Cherryfruit Ripens (Hirari 14) [project].cbz", new ParsedFilenameData { Series = "The Day the Cherryfruit Ripens", Artist = "Isoya Yuki" } },
             { "[Garun] I Could Just Tell.cbz", new ParsedFilenameData { Series = "I Could Just Tell", Artist = "Garun" } },
-            { "[Takemiya Jin] Yaezakura Sympathy 1 [TZdY].cbz", new ParsedFilenameData { Artist = "Takemiya Jin", Series = "Yaesakura Sympathy", Number = "1" } },
+            { "[Takemiya Jin] Yaezakura Sympathy 1 [TZdY].cbz", new ParsedFilenameData { Artist = "Takemiya Jin", Series = "Yaezakura Sympathy", Number = "1" } },
             { "04.cbz", new ParsedFilenameData { Number = "4" } },
             { "vol04.cbz", new ParsedFilenameData { Volume = 4 } },
             { "vol 04.cbz", new ParsedFilenameData { Volume = 4 } },
