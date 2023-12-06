@@ -133,7 +133,7 @@ namespace ComicArchiveCLI
             }
 
             Console.WriteLine(string.Empty);
-            Console.WriteLine("Conversion finshed!");
+            Console.WriteLine("Conversion finished!");
             // TODO: output some stats on files skipped and files converted
         }
 
