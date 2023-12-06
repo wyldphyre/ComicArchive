@@ -39,6 +39,10 @@ TODO:
 
 ## To Do List
 
+### Priority
+
+- Switch to a better command line parser (try CommandLine).
+
 ### Short Term
 
 - Move the conversion of an archive inside the ComicArchiveFile abstraction.
@@ -46,4 +50,4 @@ TODO:
 
 ### Long Term
 
-- [Eventually] Implement ability to write most/all metadata to archives. Only zip files will be supported for writing initially. Other open standard formats may be supported one day, but Zip is the only open commonly used format, so there is probably no demand to support other formats. I see no benefit from using RAR that is worth taking the dependency on a prioprietary 3rd party tool and philosophically oppose the use of RAR for comic archives.
+- [Eventually] Implement ability to write most/all metadata to archives. Only zip files will be supported for writing initially. Other open standard formats may be supported one day, but Zip is the only open commonly used format, so there is probably no demand to support other formats. I see no benefit from using RAR that is worth taking the dependency on a proprietary 3rd party tool and philosophically oppose the use of RAR for comic archives.

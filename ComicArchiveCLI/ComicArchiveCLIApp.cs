@@ -50,7 +50,7 @@ namespace ComicArchiveCLI
         [Verb(Description = "Convert non-zip comic archives into zip archives.")]
         public static void Convert(
           [Required]
-      [Description("The file or folder of files to convert.")]
+        [Description("The file or folder of files to convert.")]
       string path,
           [Description("If a file with the same name as the conversion target exists, replace it.")]
       bool overwrite,
@@ -69,6 +69,9 @@ namespace ComicArchiveCLI
 
             var converter = new ComicArchive.Converter();
             converter.LogActivityEvent += (message) => Console.WriteLine(message);
+
+            if (path == ".")
+                path = Environment.CurrentDirectory;
 
             var pathDirectory = Path.GetDirectoryName(path);
             var pathFileMask = Path.GetFileName(path);
@@ -130,7 +133,7 @@ namespace ComicArchiveCLI
             }
 
             Console.WriteLine(string.Empty);
-            Console.WriteLine("Conversion finshed!");
+            Console.WriteLine("Conversion finished!");
             // TODO: output some stats on files skipped and files converted
         }
 

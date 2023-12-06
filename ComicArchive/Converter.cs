@@ -92,7 +92,12 @@ namespace ComicArchive
                 var workingPath = Path.Combine(options.WorkingPath ?? AppContext.BaseDirectory, sourceFilename);
 
                 if (Directory.Exists(workingPath))
-                    return (false, $"Cannot process file {sourceDisplayPath} because directory {workingPath} already exists!");
+                {
+                    LogActivity($"Deleting existing working path: {workingPath}");
+                    Directory.Delete(workingPath, recursive: true);
+                }
+                
+                Directory.CreateDirectory(workingPath);
 
                 LogActivity($"Processing {sourcePath}");
 
