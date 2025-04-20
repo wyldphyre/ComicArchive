@@ -11,15 +11,17 @@ namespace ComicArchive
 
             BuildMetadataDisplayString(builder, "Title", comicInfo.Title);
             BuildMetadataDisplayString(builder, "Series", comicInfo.Series);
-            BuildMetadataDisplayString(builder, "Series Group", comicInfo.SeriesGroup);
-            BuildMetadataDisplayString(builder, "Issue", comicInfo.Number);
-            BuildMetadataDisplayString(builder, "# Issues", comicInfo.Count);
+            BuildMetadataDisplayString(builder, "Number", comicInfo.Number);
+            BuildMetadataDisplayString(builder, "Count", comicInfo.Count);
             BuildMetadataDisplayString(builder, "Volume", comicInfo.Volume);
             BuildMetadataDisplayString(builder, "Alternate Series", comicInfo.AlternateSeries);
             BuildMetadataDisplayString(builder, "Alternate Number", comicInfo.AlternateNumber);
             BuildMetadataDisplayString(builder, "Alternate Count", comicInfo.AlternateCount);
+            BuildMetadataDisplayString(builder, "Summary", comicInfo.Summary);
+            BuildMetadataDisplayString(builder, "Notes", comicInfo.Notes);
             BuildMetadataDisplayString(builder, "Year", comicInfo.Year);
             BuildMetadataDisplayString(builder, "Month", comicInfo.Month);
+            BuildMetadataDisplayString(builder, "Day", comicInfo.Day);
             BuildMetadataDisplayString(builder, "Writer", comicInfo.Writer);
             BuildMetadataDisplayString(builder, "Penciller", comicInfo.Penciller);
             BuildMetadataDisplayString(builder, "Inker", comicInfo.Inker);
@@ -27,9 +29,11 @@ namespace ComicArchive
             BuildMetadataDisplayString(builder, "Letterer", comicInfo.Letterer);
             BuildMetadataDisplayString(builder, "Cover Artist", comicInfo.CoverArtist);
             BuildMetadataDisplayString(builder, "Editor", comicInfo.Editor);
+            BuildMetadataDisplayString(builder, "Translator", comicInfo.Translator);
             BuildMetadataDisplayString(builder, "Publisher", comicInfo.Publisher);
             BuildMetadataDisplayString(builder, "Imprint", comicInfo.Imprint);
             BuildMetadataDisplayString(builder, "Genre", comicInfo.Genre);
+            BuildMetadataDisplayString(builder, "Tags", comicInfo.Tags);
             BuildMetadataDisplayString(builder, "Web", comicInfo.Web);
             BuildMetadataDisplayString(builder, "Page Count", comicInfo.PageCount);
             BuildMetadataDisplayString(builder, "Language ISO", comicInfo.LanguageISO);
@@ -41,9 +45,18 @@ namespace ComicArchive
             BuildMetadataDisplayString(builder, "Locations", comicInfo.Locations);
             BuildMetadataDisplayString(builder, "Scan Information", comicInfo.ScanInformation);
             BuildMetadataDisplayString(builder, "Story Arc", comicInfo.StoryArc);
+            BuildMetadataDisplayString(builder, "Story Arc Number", comicInfo.StoryArcNumber);
+            BuildMetadataDisplayString(builder, "Series Group", comicInfo.SeriesGroup);
             BuildMetadataDisplayString(builder, "Age Rating", comicInfo.AgeRating);
-            BuildMetadataDisplayString(builder, "Summary", comicInfo.Summary);
-            BuildMetadataDisplayString(builder, "Notes", comicInfo.Notes);
+            
+            if (comicInfo.CommunityRatingSpecified)
+            {
+                BuildMetadataDisplayString(builder, "Community Rating", comicInfo.CommunityRating);
+            }
+
+            BuildMetadataDisplayString(builder, "Main Character or Team", comicInfo.MainCharacterOrTeam);
+            BuildMetadataDisplayString(builder, "Review", comicInfo.Review);
+            BuildMetadataDisplayString(builder, "GTIN", comicInfo.GTIN);
 
             return builder.ToString();
         }
@@ -54,6 +67,11 @@ namespace ComicArchive
                 builder.AppendLine($"{caption}: {data}");
         }
         private static void BuildMetadataDisplayString(StringBuilder builder, string caption, int data)
+        {
+            if (data > -1)
+                builder.AppendLine($"{caption}: {data}");
+        }
+        private static void BuildMetadataDisplayString(StringBuilder builder, string caption, decimal data)
         {
             if (data > -1)
                 builder.AppendLine($"{caption}: {data}");
@@ -119,6 +137,7 @@ namespace ComicArchive
                 case Manga.No: return "No";
                 case Manga.Yes: return "Yes";
                 case Manga.YesAndRightToLeft: return "Yes (right to left)";
+                case Manga.Unknown: return "Unknown";
                 default:
                     throw new Exception($"Unhandled Age Rating: {manga}");
             }
