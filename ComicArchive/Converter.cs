@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using SharpCompress;
+
 using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Common;
@@ -40,10 +40,14 @@ namespace ComicArchive
             convertedPath = string.Empty;
 
             if (Directory.Exists(sourcePath))
+            {
                 return (false, $"Cannot convert because {sourcePath} is a directory.");
+            }
 
             if (!System.IO.File.Exists(sourcePath))
+            {
                 return (false, $"Cannot convert '{sourcePath}. File does not exist.");
+            }
 
             var sourceDirectory = Path.GetDirectoryName(sourcePath);
             var sourceFilename = Path.GetFileNameWithoutExtension(sourcePath);
@@ -68,10 +72,14 @@ namespace ComicArchive
 
             // This is mostly a sanity check. Shouldn't come up.
             if (string.Equals(sourcePath, convertedPath, StringComparison.CurrentCultureIgnoreCase))
+            {
                 return (false, $"Skipping because target and destination are the same: '{sourceDisplayPath}'");
+            }
 
             if (System.IO.File.Exists(convertedPath) && !options.OverwriteExisting)
+            {
                 return (false, $"Cannot convert path '{sourceDisplayPath} to Zip. Target path '{convertedDisplayPath}' already exists");
+            }
 
             if (FileIsZip)
             {
@@ -96,7 +104,7 @@ namespace ComicArchive
                     LogActivity($"Deleting existing working path: {workingPath}");
                     Directory.Delete(workingPath, recursive: true);
                 }
-                
+
                 Directory.CreateDirectory(workingPath);
 
                 LogActivity($"Processing {sourcePath}");

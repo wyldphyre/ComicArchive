@@ -1,12 +1,13 @@
 
+using System;
 using System.IO;
-using SharpCompress.Archives.Rar;
-using SharpCompress.Archives.Zip;
+
 using SharpCompress.Archives.GZip;
+using SharpCompress.Archives.Rar;
 using SharpCompress.Archives.SevenZip;
 using SharpCompress.Archives.Tar;
+using SharpCompress.Archives.Zip;
 using SharpCompress.Readers;
-using System;
 
 namespace ComicArchive
 {
@@ -17,7 +18,9 @@ namespace ComicArchive
         public static bool IsArchive(string path)
         {
             if (Directory.Exists(path))
+            {
                 return false;
+            }
 
             return ZipArchive.IsZipFile(path) ||
               RarArchive.IsRarFile(path) ||

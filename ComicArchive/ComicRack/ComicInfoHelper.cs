@@ -48,7 +48,7 @@ namespace ComicArchive
             BuildMetadataDisplayString(builder, "Story Arc Number", comicInfo.StoryArcNumber);
             BuildMetadataDisplayString(builder, "Series Group", comicInfo.SeriesGroup);
             BuildMetadataDisplayString(builder, "Age Rating", comicInfo.AgeRating);
-            
+
             if (comicInfo.CommunityRatingSpecified)
             {
                 BuildMetadataDisplayString(builder, "Community Rating", comicInfo.CommunityRating);
@@ -64,22 +64,30 @@ namespace ComicArchive
         private static void BuildMetadataDisplayString(StringBuilder builder, string caption, string data)
         {
             if (!string.IsNullOrEmpty(data))
+            {
                 builder.AppendLine($"{caption}: {data}");
+            }
         }
         private static void BuildMetadataDisplayString(StringBuilder builder, string caption, int data)
         {
             if (data > -1)
+            {
                 builder.AppendLine($"{caption}: {data}");
+            }
         }
         private static void BuildMetadataDisplayString(StringBuilder builder, string caption, decimal data)
         {
             if (data > -1)
+            {
                 builder.AppendLine($"{caption}: {data}");
+            }
         }
         private static void BuildMetadataDisplayString(StringBuilder builder, string caption, YesNo data)
         {
             if (data == YesNo.Unknown)
+            {
                 return;
+            }
 
             builder.Append($"{caption}: ");
             builder.AppendLine(data == YesNo.Yes ? "Yes" : "No");
@@ -87,14 +95,18 @@ namespace ComicArchive
         private static void BuildMetadataDisplayString(StringBuilder builder, string caption, Manga data)
         {
             if (data == Manga.Unknown)
+            {
                 return;
+            }
 
             builder.AppendLine($"{caption}: {data.DisplayString()}");
         }
         private static void BuildMetadataDisplayString(StringBuilder builder, string caption, AgeRating data)
         {
             if (data == AgeRating.Unknown)
+            {
                 return;
+            }
 
             builder.AppendLine($"{caption}: {data.DisplayString()}");
         }

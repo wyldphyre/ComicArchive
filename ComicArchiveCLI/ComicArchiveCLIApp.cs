@@ -41,7 +41,9 @@ namespace ComicArchiveCLI
                     Console.WriteLine($"Comic Rack metadata file '{ArchiveHelper.comicRackMetadataFilename}' missing.");
                 }
                 else
+                {
                     Console.WriteLine(comic.MetadataAsText());
+                }
             }
             catch (Exception e)
             {
@@ -73,7 +75,9 @@ namespace ComicArchiveCLI
             converter.LogActivityEvent += (message) => Console.WriteLine(message);
 
             if (path == ".")
+            {
                 path = Environment.CurrentDirectory;
+            }
 
             var pathDirectory = Path.GetDirectoryName(path);
             var pathFileMask = Path.GetFileName(path);
@@ -125,7 +129,9 @@ namespace ComicArchiveCLI
                     var (result, message) = converter.ConvertToZipArchive(filePath, options, out var convertedPath);
 
                     if (!string.IsNullOrWhiteSpace(message))
+                    {
                         Console.WriteLine(message);
+                    }
                 }
             }
             catch (Exception e)

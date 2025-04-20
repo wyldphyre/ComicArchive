@@ -1,9 +1,9 @@
-﻿using JetBrains.Annotations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
+
+using JetBrains.Annotations;
 
 namespace ComicArchive
 {
@@ -79,7 +79,9 @@ namespace ComicArchive
                 {
                     // Only accept bracketted content in the first position
                     if (index == 0)
+                    {
                         result.Artist = parsedArtist;
+                    }
                 }
                 else if (trimmedToken == "-")
                 {
@@ -99,7 +101,7 @@ namespace ComicArchive
                     result.Name = remainingText.Trim();
                     isPastSeries = true;
                 }
-                else if (float.TryParse(trimmedToken, out _) && 
+                else if (float.TryParse(trimmedToken, out _) &&
                     (trimmedToken.Contains(".") || seriesTokens.Count > 0 || tokens.Length == 1 || nextToken == "-"))
                 {
                     // a token that is a float on its own with:
@@ -131,15 +133,19 @@ namespace ComicArchive
                 else
                 {
                     if (!isPastSeries)
+                    {
                         seriesTokens.Add(trimmedToken);
+                    }
                 }
 
                 previousToken = token;
                 index++;
             }
 
-            if (seriesTokens.Count > 0) 
+            if (seriesTokens.Count > 0)
+            {
                 result.Series = string.Join(" ", seriesTokens);
+            }
 
             return result;
         }
@@ -156,7 +162,9 @@ namespace ComicArchive
 
             // handle the case where filename uses '.' instead of spaces
             if (name.Contains(".") && !name.Contains(" "))
+            {
                 return name.Split(".").Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
+            }
 
             // Note: '.' not considered to be a token break unless used in place of spaces, as covered above
             var tokens = new List<string>();
@@ -180,12 +188,18 @@ namespace ComicArchive
                     index++;
 
                     if (index >= name.Length)
+                    {
                         continue;
+                    }
 
                     if (inBrackets && character == ']' || character == ')')
+                    {
                         inBrackets = false;
+                    }
                     else if (!inBrackets && character == '[' || character == '(')
+                    {
                         inBrackets = true;
+                    }
 
                     character = name[index];
                 }
@@ -199,10 +213,14 @@ namespace ComicArchive
         private static bool TryVolumeParse(string token, out int volume)
         {
             if (token.StartsWith("v", StringComparison.CurrentCultureIgnoreCase) && int.TryParse(token.Substring(1, token.Length - 1), out volume))
+            {
                 return true;
+            }
 
             if (token.StartsWith("vol", StringComparison.CurrentCultureIgnoreCase) && int.TryParse(token.Substring(3, token.Length - 3), out volume))
+            {
                 return true;
+            }
 
             volume = 0;
             return false;
@@ -235,7 +253,9 @@ namespace ComicArchive
             parsedYear = 0;
 
             if (token.Length != 6)
+            {
                 return false;
+            }
 
             if (token.StartsWith('[') && token.EndsWith(']') || token.StartsWith('(') && token.EndsWith(')'))
             {

@@ -31,7 +31,7 @@ namespace ComicArchive
         /// Indicates whether a metadata file was found in the archive
         /// </summary>
         public bool HasMetadataStream => metadataStream != null;
-        
+
         public MemoryStream MetadataStream => metadataStream;
 
         public void ReadMetadataFromArchive()
@@ -55,7 +55,9 @@ namespace ComicArchive
             var builder = new StringBuilder();
 
             if (!HasMetadataStream)
+            {
                 ReadMetadataFromArchive();
+            }
 
             return ComicInfo.FormatAsText();
         }
