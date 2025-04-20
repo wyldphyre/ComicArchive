@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+
 using CLAP;
 using CLAP.Validation;
+
 using ComicArchive;
 
 namespace ComicArchiveCLI
@@ -12,8 +14,8 @@ namespace ComicArchiveCLI
         [Verb(Description = "Read the metadata for a comic archive. Only supports reading Comic Rack metadata.")]
         public static void Read(
           [Required]
-      [FileExists]
-      string path
+          [FileExists]
+          string path
         )
         {
             if (Directory.Exists(path))
@@ -49,15 +51,15 @@ namespace ComicArchiveCLI
 
         [Verb(Description = "Convert non-zip comic archives into zip archives.")]
         public static void Convert(
-          [Required]
-        [Description("The file or folder of files to convert.")]
-      string path,
-          [Description("If a file with the same name as the conversion target exists, replace it.")]
-      bool overwrite,
-          [Description("Delete the original file once the conversion is complete.")]
-      bool replace,
-          [Description("Show full file paths instead of just the files name.")]
-      bool showFullPaths
+            [Required]
+            [Description("The file or folder of files to convert.")]
+            string path,
+            [Description("If a file with the same name as the conversion target exists, replace it.")]
+            bool overwrite,
+            [Description("Delete the original file once the conversion is complete.")]
+            bool replace,
+            [Description("Show full file paths instead of just the files name.")]
+            bool showFullPaths
         )
         {
             var options = new ComicArchive.ConverterOptions
