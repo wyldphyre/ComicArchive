@@ -98,7 +98,7 @@ namespace ComicArchiveCLI
 
             var pathDirectoryInfo = new DirectoryInfo(pathDirectory);
             var filePathsToConvert = pathDirectoryInfo.GetFiles(pathFileMask)
-              .Where(fi => !fi.Name.StartsWith("."))
+              .Where(fi => !fi.Name.StartsWith('.'))
               .Select(fi => fi.FullName);
 
             foreach (var filePath in filePathsToConvert)

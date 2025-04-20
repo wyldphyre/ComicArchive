@@ -7,10 +7,10 @@ using JetBrains.Annotations;
 
 namespace ComicArchive
 {
-    public static class FilenameParser
+    public static partial class FilenameParser
     {
-        private static readonly string[] volumePreceedingTokens = new[] { "vol", "vol.", "volume", "volume." };
-        private static readonly string[] chapterPreceedingTokens = new[] { "ch", "ch.", "ch.", "chp.", "chapter" };
+        private static readonly string[] volumePreceedingTokens = ["vol", "vol.", "volume", "volume."];
+        private static readonly string[] chapterPreceedingTokens = ["ch", "ch.", "ch.", "chp.", "chapter"];
 
         [CanBeNull]
         public static ParsedFilenameData Parse(string filename)
@@ -92,8 +92,8 @@ namespace ComicArchive
                     index = tokens.Length - 1;
 
                     // remove any bracketed content
-                    remainingText = Regex.Replace(remainingText, @"\(.*\)", string.Empty);
-                    remainingText = Regex.Replace(remainingText, @"\[.*\]", string.Empty);
+                    remainingText = MatchContentInParentheses().Replace(remainingText, string.Empty);
+                    remainingText = MatchContentInSquareBrackets().Replace(remainingText, string.Empty);
 
                     // normalise spacing to once space
                     remainingText = string.Join(' ', remainingText.Split(' ').Where(s => !string.IsNullOrWhiteSpace(s)));
@@ -102,7 +102,7 @@ namespace ComicArchive
                     isPastSeries = true;
                 }
                 else if (float.TryParse(trimmedToken, out _) &&
-                    (trimmedToken.Contains(".") || seriesTokens.Count > 0 || tokens.Length == 1 || nextToken == "-"))
+                    (trimmedToken.Contains('.') || seriesTokens.Count > 0 || tokens.Length == 1 || nextToken == "-"))
                 {
                     // a token that is a float on its own with:
                     //   - no preceeding token to indicate it is a chapter/number or volume
@@ -161,9 +161,11 @@ namespace ComicArchive
                 .Replace("_", " ");
 
             // handle the case where filename uses '.' instead of spaces
-            if (name.Contains(".") && !name.Contains(" "))
+            if (name.Contains('.') && !name.Contains(' '))
             {
+#pragma warning disable IDE0305 // Simplify collection initialization
                 return name.Split(".").Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
+#pragma warning restore IDE0305 // Simplify collection initialization
             }
 
             // Note: '.' not considered to be a token break unless used in place of spaces, as covered above
@@ -204,20 +206,22 @@ namespace ComicArchive
                     character = name[index];
                 }
 
-                tokens.Add(name.Substring(startPos, index - startPos));
+                tokens.Add(name[startPos..index]);
             }
 
+#pragma warning disable IDE0305 // Simplify collection initialization
             return tokens.ToArray();
+#pragma warning restore IDE0305 // Simplify collection initialization
         }
 
         private static bool TryVolumeParse(string token, out int volume)
         {
-            if (token.StartsWith("v", StringComparison.CurrentCultureIgnoreCase) && int.TryParse(token.Substring(1, token.Length - 1), out volume))
+            if (token.StartsWith("v", StringComparison.CurrentCultureIgnoreCase) && int.TryParse(token.AsSpan(1, token.Length - 1), out volume))
             {
                 return true;
             }
 
-            if (token.StartsWith("vol", StringComparison.CurrentCultureIgnoreCase) && int.TryParse(token.Substring(3, token.Length - 3), out volume))
+            if (token.StartsWith("vol", StringComparison.CurrentCultureIgnoreCase) && int.TryParse(token.AsSpan(3, token.Length - 3), out volume))
             {
                 return true;
             }
@@ -234,7 +238,7 @@ namespace ComicArchive
             {
                 if (token.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var potentialNumber = token.Substring(prefix.Length, token.Length - prefix.Length);
+                    var potentialNumber = token[prefix.Length..];
 
                     if (float.TryParse(potentialNumber, out _))
                     {
@@ -273,11 +277,16 @@ namespace ComicArchive
 
             if (token.StartsWith('[') && token.EndsWith(']') || token.StartsWith('(') && token.EndsWith(')'))
             {
-                parsedArtist = token.Substring(1, token.Length - 2).Trim();
+                parsedArtist = token[1..^1].Trim();
                 return true;
             }
 
             return false;
         }
+
+        [GeneratedRegex(@"\(.*\)")]
+        private static partial Regex MatchContentInParentheses();
+        [GeneratedRegex(@"\[.*\]")]
+        private static partial Regex MatchContentInSquareBrackets();
     }
 }

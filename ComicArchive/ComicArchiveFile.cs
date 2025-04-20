@@ -54,8 +54,6 @@ namespace ComicArchive
 
         public string MetadataAsText()
         {
-            var builder = new StringBuilder();
-
             if (!HasMetadataStream)
             {
                 ReadMetadataFromArchive();
