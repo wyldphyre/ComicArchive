@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -11,7 +12,7 @@ namespace ComicArchiveCLI
 {
     class ComicArchiveCLIApp
     {
-        [Verb(Description = "Read the metadata for a comic archive. Only supports reading Comic Rack metadata.")]
+        [Verb(Description = "Read the metadata for a comic archive. Only supports reading Comic Rack (comicinfo.xml) metadata.")]
         public static void Read(
           [Required]
           [FileExists]
@@ -44,6 +45,83 @@ namespace ComicArchiveCLI
                 {
                     Console.WriteLine(comic.MetadataAsText());
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        [Verb(Description = "Write metadata tags to comic archive. Only supports writing Comic Rack (comicinfo.xml) metadata.")]
+        public static void Write(
+            [Required]
+            string path,
+            [Required]
+            string metadata,
+            bool confirmDirectory
+        )
+        {
+            var pathIsDirectory = Directory.Exists(path);
+
+            if (pathIsDirectory && !confirmDirectory)
+            {
+                Console.WriteLine($"Process directory? (y/n): {path}");
+                var response = Console.ReadLine()?.Trim();
+
+                if (!response.Equals("y", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return;
+                }
+            }
+
+            if (!pathIsDirectory && !ComicArchive.ArchiveHelper.IsZipArchive(path))
+            {
+                Console.WriteLine($"{path} is not a zip archive.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(metadata) || !metadata.Contains('='))
+            {
+                Console.WriteLine("Invalid metadata");
+                return;
+            }
+
+            try
+            {
+                var newMetadata = metadata.Split(';')
+                    .Select(value =>value.Split('='))
+                    .ToDictionary(kvp => kvp[0], kvp => kvp[1]);
+
+                var files = !pathIsDirectory 
+                    ? [path] 
+                    : Directory.GetFiles(path, "*.cbz").Where(f => ComicArchive.ArchiveHelper.IsZipArchive(f));
+
+                foreach (var file in files)
+                {
+                    var comic = new ComicArchive.File { Path = file };
+                    comic.ReadMetadataFromArchive();
+
+                    var filename = Path.GetFileName(file);
+                    if (!comic.HasMetadataStream || comic.MetadataStream.Length == 0)
+                    {
+                        Console.Write($"{filename} - Creating Comic Rack metadata... ");
+                    }
+                    else
+                    {
+                        Console.Write($"{filename} - Updating Comic Rack metadata... ");
+                    }
+
+                    comic.UpdateMetadata(newMetadata);
+
+                    comic.SaveMetadataToArchive();
+
+                    var color = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Done");
+                    Console.ForegroundColor = color;
+                }
+
+                Console.WriteLine("Finished");
             }
             catch (Exception e)
             {

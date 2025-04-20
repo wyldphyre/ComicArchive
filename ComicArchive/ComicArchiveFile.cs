@@ -1,6 +1,7 @@
 
+using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml.Serialization;
 
 using ComicArchive.ComicRack;
@@ -47,6 +48,11 @@ namespace ComicArchive
             }
         }
 
+        public void SaveMetadataToArchive()
+        {
+            ArchiveHelper.WriteComicRackMetadataFile(Path, ComicInfo);
+        }
+
         public static ComicInfo ParseFilename()
         {
             return null;
@@ -60,6 +66,68 @@ namespace ComicArchive
             }
 
             return ComicInfo.FormatAsText();
+        }
+
+        public void UpdateMetadata(Dictionary<string, string> newMetadata)
+        {
+            foreach (var kvp in newMetadata)
+            {
+                switch (kvp.Key.ToLower())
+                {
+                    case "title":
+                        ComicInfo.Title = kvp.Value;
+                        break;
+
+                    case "series":
+                        ComicInfo.Series = kvp.Value;
+                        break;
+
+                    case "number":
+                        ComicInfo.Number = kvp.Value;
+                        break;
+
+                    case "volume":
+                        if (!int.TryParse(kvp.Value, out int number))
+                        {
+                            throw new ArgumentOutOfRangeException(kvp.Key, "Not a valid integer");
+                        }
+
+                        ComicInfo.Volume = number;
+                        break;
+
+                    case "writer":
+                        ComicInfo.Writer = kvp.Value;
+                        break;
+
+                    case "artist": // a special case to replicate the behaviour of ComicTagger
+                        ComicInfo.Inker = kvp.Value;
+                        ComicInfo.Penciller = kvp.Value;
+                        break;
+
+                    case "tags":
+                        ComicInfo.Tags = kvp.Value;
+                        break;
+
+                    case "penciller":
+                        ComicInfo.Penciller = kvp.Value;
+                        break;
+
+                    case "inker":
+                        ComicInfo.Inker = kvp.Value;
+                        break;
+
+                    case "web":
+                        ComicInfo.Web = kvp.Value;
+                        break;
+
+                    case "manga":
+                        ComicInfo.Manga = MangaMapper.Map(kvp.Value);
+                        break;
+
+
+                    default: throw new ArgumentException($"Metadata property not supported: {kvp.Key}");
+                }
+            }
         }
     }
 }
