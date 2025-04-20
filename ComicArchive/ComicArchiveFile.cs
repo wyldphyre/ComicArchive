@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
+using ComicArchive.ComicRack;
+
 namespace ComicArchive
 {
     /// <summary>
