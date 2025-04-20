@@ -99,7 +99,7 @@ namespace ComicArchive.ComicRack
                 return;
             }
 
-            builder.AppendLine($"{caption}: {data.DisplayString()}");
+            builder.AppendLine($"{caption}: {data.Map()}");
         }
         private static void BuildMetadataDisplayString(StringBuilder builder, string caption, AgeRating data)
         {
@@ -108,13 +108,13 @@ namespace ComicArchive.ComicRack
                 return;
             }
 
-            builder.AppendLine($"{caption}: {data.DisplayString()}");
+            builder.AppendLine($"{caption}: {data.Map()}");
         }
     }
 
-    public static class AgeRatingHelper
+    public static class AgeRatingMapper
     {
-        public static string DisplayString(this AgeRating rating)
+        public static string Map(this AgeRating rating)
         {
             return rating switch
             {
@@ -138,9 +138,9 @@ namespace ComicArchive.ComicRack
         }
     }
 
-    public static class MangaHelper
+    public static class MangaMapper
     {
-        public static string DisplayString(this Manga manga)
+        public static string Map(this Manga manga)
         {
             return manga switch
             {
@@ -148,7 +148,20 @@ namespace ComicArchive.ComicRack
                 Manga.Yes => "Yes",
                 Manga.YesAndRightToLeft => "Yes (right to left)",
                 Manga.Unknown => "Unknown",
-                _ => throw new Exception($"Unhandled Age Rating: {manga}"),
+                _ => throw new Exception($"Unhandled Manga value: {manga}"),
+            };
+        }
+        
+        public static Manga Map(this string manga)
+        {
+            return manga switch
+            {
+                "No" => Manga.No,
+                "Yes" => Manga.Yes ,
+                "YesAndRightToLeft" => Manga.YesAndRightToLeft ,
+                "Yes (right to left)" => Manga.YesAndRightToLeft ,
+                "Unknown" => Manga.Unknown ,
+                _ => throw new Exception($"Unhandled Manga value: {manga}"),
             };
         }
     }
