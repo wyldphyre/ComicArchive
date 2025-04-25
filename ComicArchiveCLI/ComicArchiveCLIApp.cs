@@ -115,10 +115,7 @@ namespace ComicArchiveCLI
 
                     comic.SaveMetadataToArchive();
 
-                    var color = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Done");
-                    Console.ForegroundColor = color;
+                    ConsoleWriteLine("Done", withColor: ConsoleColor.Green);
                 }
 
                 Console.WriteLine("Finished");
@@ -128,10 +125,7 @@ namespace ComicArchiveCLI
                 if (e.Message.StartsWith("An item with the same key has already been added"))
                 {
                     var problemAttribute = e.Message.Split("Key:")[1].Trim();
-                    var color = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Duplicate metadata attribute: {problemAttribute}");
-                    Console.ForegroundColor = color;
+                    ConsoleWriteLine($"Duplicate metadata attribute: {problemAttribute}", withColor: ConsoleColor.Red);
                 }
             }
             catch (Exception e)
@@ -245,6 +239,14 @@ namespace ComicArchiveCLI
         {
             Console.WriteLine(context.Exception.Message);
             //Console.WriteLine(context.Exception.StackTrace);
+        }
+
+        private static void ConsoleWriteLine(string message, ConsoleColor withColor)
+        {
+            var color = Console.ForegroundColor;
+            Console.ForegroundColor = withColor;
+            Console.WriteLine(message);
+            Console.ForegroundColor = color;
         }
     }
 }
