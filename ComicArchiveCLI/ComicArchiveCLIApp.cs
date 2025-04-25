@@ -90,7 +90,7 @@ namespace ComicArchiveCLI
             {
                 var newMetadata = metadata.Split(';')
                     .Select(value =>value.Split('='))
-                    .ToDictionary(kvp => kvp[0], kvp => kvp[1]);
+                    .ToDictionary(kvp => kvp[0].ToLower(), kvp => kvp[1]);
 
                 var files = !pathIsDirectory 
                     ? [path] 
@@ -122,6 +122,17 @@ namespace ComicArchiveCLI
                 }
 
                 Console.WriteLine("Finished");
+            }
+            catch (ArgumentException e)
+            {
+                if (e.Message.StartsWith("An item with the same key has already been added"))
+                {
+                    var problemAttribute = e.Message.Split("Key:")[1].Trim();
+                    var color = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Duplicate metadata attribute: {problemAttribute}");
+                    Console.ForegroundColor = color;
+                }
             }
             catch (Exception e)
             {
