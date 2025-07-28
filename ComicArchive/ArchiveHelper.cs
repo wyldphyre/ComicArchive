@@ -92,6 +92,8 @@ namespace ComicArchive
             using (var writer = new ZipWriter(updatedFileStream, zipWriterOptions))
             using (var archive = ZipArchive.Open(path))
             {
+                var metadataWasFound = false;
+
                 foreach (var entry in archive.Entries)
                 {
                     if (entry.IsDirectory)
@@ -103,6 +105,7 @@ namespace ComicArchive
 
                     if (isMetadataEntry)
                     {
+                        metadataWasFound = true;
                         writer.Write(entry.Key, metadataStream, DateTime.Now);
                     }
                     else
@@ -111,6 +114,11 @@ namespace ComicArchive
 
                         writer.Write(entry.Key, entryStream, entry.LastAccessedTime);
                     }
+                }
+
+                if (!metadataWasFound)
+                {
+                    writer.Write(comicRackMetadataFilename, metadataStream, DateTime.Now);
                 }
             }
 
