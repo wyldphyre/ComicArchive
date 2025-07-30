@@ -52,7 +52,7 @@ namespace ComicArchiveCLI
             }
         }
 
-        [Verb(Description = "Write metadata tags to comic archive. Only supports writing Comic Rack (comicinfo.xml) metadata.")]
+        [Verb(Description = "Write metadata tags to comic archive. Only supports writing Comic Rack (comicinfo.xml) metadata and only to Zip archives.")]
         public static void Write(
             [Required]
             string path,

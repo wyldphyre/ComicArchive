@@ -8,6 +8,17 @@ A command line app and library for manipulating comic archives (.cbz, .cbr, etc)
 
 - The `read` command looks for embedded Comic Rack metadata. If that isn't present then nothing is returned
 - The `convert` command line can convert a single archive (or a folder of archives) into a Zip based comic archive
+- The `write` command writes metadata (ComicRack format) to a zip based comic archive.
+
+### FAQ
+
+#### Why do `convert` and `write` only support zip files?
+
+It is the opinion of the author that comic archives should be in the zip format for the following reasons:
+
+- Pretty much any platform or programming language can work with Zip files allowing for the most compatibility and ease of use when working with the files
+- A common and non-proprietary format should be used for maximum compatibility
+- The space savings from using a RAR or 7zip based format are not significant enough, in my opinion, to warrant the move to a file format that is less compatible, less open, and harder for scripts/programs and other tools to work with.
 
 ### Comic Archive Library
 
@@ -23,14 +34,19 @@ Things the library currently supports:
 ### Command Line
 
 ```text
-   read|r: Read the metadata for a comic archive. Only supports reading Comic Rack metadata.
-        /p /path : (String) (Required)
+   read|r: Read the metadata for a comic archive. Only supports reading Comic Rack (comicinfo.xml) metadata.
+        /p /path : (String) (Required) (File exists) 
+
+   write|w: Write metadata tags to comic archive. Only supports writing Comic Rack (comicinfo.xml) metadata and only to Zip archives.
+        /c /confirmdirectory : 
+        /m /metadata         : (String) (Required) 
+        /p /path             : (String) (Required) 
 
    convert|c: Convert non-zip comic archives into zip archives.
-        /o /overwrite     : If a file with the same name as the conversion target exists, replace it.
-        /p /path          : The file or folder of files to convert. (String) (Required) (Path exists (file or directory))
-        /r /replace       : Delete the original file once the conversion is complete.
-        /s /showfullpaths : Show full file paths instead of just the files name.
+        /o /overwrite     : If a file with the same name as the conversion target exists, replace it. 
+        /p /path          : The file or folder of files to convert. (String) (Required) 
+        /r /replace       : Delete the original file once the conversion is complete. 
+        /s /showfullpaths : Show full file paths instead of just the files name. 
 ```
 
 ### C# Library
