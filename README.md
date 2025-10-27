@@ -49,6 +49,20 @@ Things the library currently supports:
         /s /showfullpaths : Show full file paths instead of just the files name. 
 ```
 
+## Building The Apps
+
+You can use Visual Studio or the Dotnet command line to build the appliciations.
+
+### Build on macOS
+
+The following will build self contained apple silicon binaries for use on macOS.
+
+```zsh
+dotnet publish -c Release -r osx-arm64 --self-contained true
+```
+
+Run the above command within the `ComicArchiveCLI` folder to build that application.
+
 ### C# Library
 
 TODO:
