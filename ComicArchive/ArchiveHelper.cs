@@ -21,7 +21,7 @@ namespace ComicArchive
 {
     public static class ArchiveHelper
     {
-        public const string comicRackMetadataFilename = "Comicinfo.xml";
+        public const string comicRackMetadataFilename = "ComicInfo.xml";
 
         public static bool IsArchive(string path)
         {
