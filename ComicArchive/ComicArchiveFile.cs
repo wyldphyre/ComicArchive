@@ -124,6 +124,9 @@ namespace ComicArchive
                         ComicInfo.Manga = MangaMapper.Map(kvp.Value);
                         break;
 
+                    case "publisher":
+                        ComicInfo.Publisher = kvp.Value;
+                        break;
 
                     default: throw new ArgumentException($"Metadata property not supported: {kvp.Key}");
                 }
