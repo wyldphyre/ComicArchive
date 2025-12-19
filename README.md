@@ -71,6 +71,7 @@ TODO:
 
 ### Priority
 
+- Finish implementing setting the various metadata properties
 - Switch to a better command line parser (try CommandLine).
 
 ### Short Term
