@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ComicArchive.ComicRack
@@ -135,6 +136,50 @@ namespace ComicArchive.ComicRack
                 AgeRating.X18 => "X18+",
                 _ => throw new Exception($"Unhandled Age Rating: {rating}"),
             };
+        }
+
+        private static readonly Dictionary<string, AgeRating> RatingMap = new()
+        {
+            ["Unknown"] = AgeRating.Unknown,
+            ["Adults Only 18+"] = AgeRating.AdultsOnly18,
+            ["AdultsOnly18"] = AgeRating.AdultsOnly18,
+            ["Early Childhood"] = AgeRating.EarlyChildhood,
+            ["EarlyChildhood"] = AgeRating.EarlyChildhood,
+            ["Everyone"] = AgeRating.Everyone,
+            ["Everyone 10+"] = AgeRating.Everyone10,
+            ["Everyone10"] = AgeRating.Everyone10,
+            ["G"] = AgeRating.G,
+            ["Kids to Adults"] = AgeRating.KidstoAdults,
+            ["KidstoAdults"] = AgeRating.KidstoAdults,
+            ["M"] = AgeRating.M,
+            ["MA15+"] = AgeRating.MA15,
+            ["MA 15+"] = AgeRating.MA15,
+            ["MA15"] = AgeRating.MA15,
+            ["Mature 17+"] = AgeRating.Mature17,
+            ["Mature17"] = AgeRating.Mature17,
+            ["PG"] = AgeRating.PG,
+            ["R18+"] = AgeRating.R18,
+            ["R18"] = AgeRating.R18,
+            ["Rating Pending"] = AgeRating.RatingPending,
+            ["RatingPending"] = AgeRating.RatingPending,
+            ["Teen"] = AgeRating.Teen,
+            ["X18+"] = AgeRating.X18,
+            ["X18"] = AgeRating.X18,
+        };
+
+        public static AgeRating Map(string rating)
+        {
+            if (TryMap(rating, out var result))
+            {
+                return result;
+            }
+
+            throw new Exception($"Unhandled Age Rating: {rating}");
+        }
+
+        public static bool TryMap(string rating, out AgeRating result)
+        {
+            return RatingMap.TryGetValue(rating, out result);
         }
     }
 

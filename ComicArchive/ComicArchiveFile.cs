@@ -184,6 +184,17 @@ namespace ComicArchive
                         }
                         break;
 
+                    case "agerating":
+                        if (AgeRatingMapper.TryMap(kvp.Value, out var ageRating))
+                        {
+                            ComicInfo.AgeRating = ageRating;
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(kvp.Key, $"Not a valid age rating: {kvp.Value}");
+                        }
+                        break;
+
                     default: throw new ArgumentException($"Metadata property not supported: {kvp.Key}");
                 }
             }
