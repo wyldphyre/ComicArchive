@@ -128,6 +128,62 @@ namespace ComicArchive
                         ComicInfo.Publisher = kvp.Value;
                         break;
 
+                    case "year":
+                        if (int.TryParse(kvp.Value, out int year))
+                        {
+                            ComicInfo.Year = year;
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(kvp.Key, "Not a valid integer");
+                        }
+                        break;
+
+                    case "month":
+                        if (int.TryParse(kvp.Value, out int month))
+                        {
+                            ComicInfo.Month = month;
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(kvp.Key, "Not a valid integer");
+                        }
+                        break;
+
+                    case "day":
+                        if (int.TryParse(kvp.Value, out int day))
+                        {
+                            ComicInfo.Day = day;
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(kvp.Key, "Not a valid integer");
+                        }
+                        break;
+
+                    case "summary":
+                        ComicInfo.Summary = kvp.Value;
+                        break;
+
+                    case "genre":
+                        ComicInfo.Genre = kvp.Value;
+                        break;
+
+                    case "imprint":
+                        ComicInfo.Imprint = kvp.Value;
+                        break;
+
+                    case "pagecount":
+                        if (int.TryParse(kvp.Value, out int pageCount))
+                        {
+                            ComicInfo.PageCount = pageCount;
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(kvp.Key, "Not a valid integer");
+                        }
+                        break;
+
                     default: throw new ArgumentException($"Metadata property not supported: {kvp.Key}");
                 }
             }
