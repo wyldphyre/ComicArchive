@@ -72,6 +72,7 @@ TODO:
 ### Priority
 
 - Finish implementing setting the various metadata properties
+- Investigate automatically setting the page count when initially creating metadata
 - Switch to a better command line parser (try CommandLine).
 
 ### Short Term
