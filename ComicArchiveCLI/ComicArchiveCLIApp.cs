@@ -80,7 +80,7 @@ namespace ComicArchiveCLI
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(metadata) || !metadata.Contains('='))
+            if (!string.IsNullOrWhiteSpace(metadata) && !metadata.Contains('='))
             {
                 Console.WriteLine("Invalid metadata");
                 return;
@@ -88,10 +88,21 @@ namespace ComicArchiveCLI
 
             try
             {
-                var newMetadata = metadata.Split(';')
-                    .Select(value =>value.Split('='))
-                    .ToDictionary(kvp => kvp[0].ToLower(), kvp => kvp[1]);
+                if (string.IsNullOrWhiteSpace(metadata))
+                {
+                    Console.WriteLine("No metadata to update.");
+                    return;
+                }
 
+                var newMetadata = new Dictionary<string, string>();
+                
+                if (!string.IsNullOrWhiteSpace(metadata))
+                {
+                    newMetadata = metadata.Split(';')
+                        .Select(value =>value.Split('='))
+                        .ToDictionary(kvp => kvp[0].ToLower(), kvp => kvp[1]);
+                }
+                
                 var files = !pathIsDirectory 
                     ? [path] 
                     : Directory.GetFiles(path, "*.cbz").Where(f => ComicArchive.ArchiveHelper.IsZipArchive(f));
@@ -102,13 +113,30 @@ namespace ComicArchiveCLI
                     comic.ReadMetadataFromArchive();
 
                     var filename = Path.GetFileName(file);
-                    if (!comic.HasMetadataStream || comic.MetadataStream.Length == 0)
+                    var metadataExists = comic.HasMetadataStream && comic.MetadataStream.Length > 0;
+
+                    var updatePageCount = true;
+                    if (metadataExists)
                     {
                         Console.Write($"{filename} - Creating Comic Rack metadata... ");
                     }
                     else
                     {
                         Console.Write($"{filename} - Updating Comic Rack metadata... ");
+
+                        Console.Write("Update page count? (y/n): ");
+                        var response = Console.ReadLine()?.Trim();
+                        
+                        if (response.Equals("n", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            updatePageCount = false;
+                        }
+                    }
+
+                    if (updatePageCount || (!metadataExists && !newMetadata.ContainsKey("pagecount")))
+                    {
+                        var pageCount = comic.CountPagesInArchive();
+                        newMetadata["pagecount"] = pageCount.ToString();
                     }
 
                     comic.UpdateMetadata(newMetadata);

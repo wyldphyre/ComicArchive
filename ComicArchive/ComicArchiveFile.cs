@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 
 using ComicArchive.ComicRack;
+using SharpCompress.Readers;
 
 namespace ComicArchive
 {
@@ -55,7 +57,33 @@ namespace ComicArchive
 
         public static ComicInfo ParseFilename()
         {
+            // TODO: Implement parsing metadata from filename
             return null;
+        }
+
+        public int CountPagesInArchive()
+        {
+            int pageCount = 0;
+
+            using (Stream stream = System.IO.File.OpenRead(Path))
+            using (var reader = ReaderFactory.Open(stream))
+            {
+                while (reader.MoveToNextEntry())
+                {
+                    if (!reader.Entry.IsDirectory)
+                    {
+                        string[] imageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff", ".tif" };
+                        var extension = System.IO.Path.GetExtension(reader.Entry.Key);
+
+                        if (imageExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
+                        {
+                            pageCount++;
+                        }
+                    }
+                }
+            }
+
+            return pageCount;
         }
 
         public string MetadataAsText()
