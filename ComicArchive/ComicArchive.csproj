@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
-    <PackageReference Include="SharpCompress" Version="0.34.2" />
+    <PackageReference Include="SharpCompress" Version="0.48.0" />
   </ItemGroup>
 
 </Project>
